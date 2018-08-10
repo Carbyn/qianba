@@ -1,0 +1,6 @@
+vendor
+uploads
+static
+web
+*.swo
+*.swp

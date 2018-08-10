@@ -1,0 +1,7 @@
+{
+    "require": {
+        "izniburak/pdox": "^1.2",
+        "curl/curl": "^1.8",
+        "predis/predis": "^1.1"
+    }
+}
