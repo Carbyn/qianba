@@ -2,25 +2,25 @@
 namespace Explorer;
 class ControllerAbstract extends \Yaf\Controller_Abstract {
 
-    public $userId;
+    public $uid;
     public $user;
 
     public function init() {
         // TODO
         if (isset($_COOKIE['carbyn'])) {
-            $this->userId = 2;
+            $this->uid = 1;
             $userModel = new \UserModel();
-            $this->user = $userModel->fetch($this->userId);
+            $this->user = $userModel->fetch($this->uid);
             return;
         }
         $token = isset($_COOKIE['token']) ? $_COOKIE['token'] : '';
         if ($token) {
             $loginModel = new \LoginModel();
-            $this->userId = $loginModel->verifyToken($token);
+            $this->uid = $loginModel->verifyToken($token);
             $userModel = new \UserModel();
-            $this->user = $userModel->fetch($this->userId);
+            $this->user = $userModel->fetch($this->uid);
         } else {
-            $this->userId = 0;
+            $this->uid = 0;
         }
     }
 
