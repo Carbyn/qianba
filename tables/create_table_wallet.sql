@@ -1,3 +1,4 @@
+drop table if exists `wallet`;
 create table `wallet` (
     `id` bigint(20) unsigned not null default 0 comment 'auto incr id',
     `uid` bigint(20) unsigned not null default 0 comment 'user id',

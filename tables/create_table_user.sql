@@ -1,3 +1,4 @@
+drop table if exists `user`;
 create table user (
     `id` bigint(20) unsigned auto_increment comment 'primary key',
     `openid` varchar(128) not null default '' comment 'wx openid',
