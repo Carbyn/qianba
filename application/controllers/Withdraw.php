@@ -40,4 +40,22 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('records'));
     }
 
+    public function reviewAction() {
+        if (!$this->uid) {
+            return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
+        }
+
+        $id = $this->getRequest()->getQuery('id');
+        $approved = $this->getRequest()->getQuery('approved');
+        $withdrawModel = new WithdrawModel();
+        $record = $withdrawModel->fetch($id);
+        if (!$record) {
+            return $this->outputError(Constants::ERR_WITHDRAW_RECORD_NOT_EXISTS, '提现记录不存在');
+        }
+        if (!$withdrawModel->review($id, $approved)) {
+            return $this->outputError(Constants::ERR_WITHDRAW_REVIEW_FAILED, '审核提现失败');
+        }
+        $this->outputSuccess();
+    }
+
 }

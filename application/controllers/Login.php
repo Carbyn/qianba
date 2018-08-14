@@ -39,4 +39,3 @@ class LoginController extends \Explorer\ControllerAbstract {
     }
 
 }
-

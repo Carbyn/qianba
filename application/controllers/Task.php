@@ -94,7 +94,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         $this->outputSuccess();
     }
 
-    public function approveAction() {
+    public function reviewAction() {
         if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
@@ -109,7 +109,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         if ($mytask->status != Constants::STATUS_MYTASK_IN_REVIEW) {
             return $this->outputError(Constants::ERR_TASK_ALREADY_REVIEWED, '任务已被审核');
         }
-        if (!$mytaskModel->approve($id, $approved)) {
+        if (!$mytaskModel->review($id, $approved)) {
             return $this->outputError(Constants::ERR_TASK_APPROVED_FAILED, '通过任务失败');
         }
         if (!$approved) {

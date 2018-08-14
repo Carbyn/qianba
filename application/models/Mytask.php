@@ -50,7 +50,7 @@ class MytaskModel extends AbstractModel {
         return $this->db->table(self::TABLE)->insert($data);
     }
 
-    public function approve($id, $approved) {
+    public function review($id, $approved) {
         $where['id'] = $id;
         if ($approved) {
             $update['status'] = Constants::STATUS_MYTASK_APPROVED;
