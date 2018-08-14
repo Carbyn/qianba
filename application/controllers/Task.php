@@ -100,17 +100,22 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
 
         $id = $this->getRequest()->getQuery('id');
+        $approved = $this->getRequest()->getQuery('approved');
         $mytaskModel = new MytaskModel();
         $mytask = $mytaskModel->fetch($id);
         if (!$mytask) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        if ($mytask->status == Constants::STATUS_MYTASK_APPROVED) {
-            return $this->outputError(Constants::ERR_TASK_ALREADY_APPROVED, '任务已被审核');
+        if ($mytask->status != Constants::STATUS_MYTASK_IN_REVIEW) {
+            return $this->outputError(Constants::ERR_TASK_ALREADY_REVIEWED, '任务已被审核');
         }
-        if (!$mytaskModel->approved($id)) {
+        if (!$mytaskModel->approve($id, $approved)) {
             return $this->outputError(Constants::ERR_TASK_APPROVED_FAILED, '通过任务失败');
         }
+        if (!$approved) {
+            return $this->outputSuccess();
+        }
+
         $taskModel = new TaskModel();
         $subtask = $taskModel->fetch($mytask->task_id);
         $task = $taskModel->fetch($subtask->parent_id);
