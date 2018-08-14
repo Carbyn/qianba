@@ -12,14 +12,17 @@ class LoginController extends \Explorer\ControllerAbstract {
         }
         $userModel = new UserModel();
         $user = $userModel->existsOpenid($openid);
+        $walletModel = new WalletModel();
         if (!$user) {
             $id = $userModel->createOpenid($openid);
             $user = $userModel->fetch($id);
+            $walletModel->create($id);
         }
         $token = \Explorer\Utils::generateToken(32);
         $loginModel = new LoginModel();
         $loginModel->saveToken($user->id, $token);
-        $this->outputSuccess(compact('token', 'user'));
+        $wallet = $walletModel->fetch($user->id);
+        $this->outputSuccess(compact('token', 'user', 'wallet'));
     }
 
     public function verifyTokenAction() {

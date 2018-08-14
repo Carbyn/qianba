@@ -9,20 +9,19 @@ class WalletModel extends AbstractModel {
         return $wallet;
     }
 
-    public function reward($uid, $amount) {
-        $wallet = $this->fetch($uid);
-        if ($wallet) {
-            $sql = 'update '.self::TABLE.' set balance=balance+?, income=income+?'
-                .' where uid=?';
-            $ret = $this->db->query($sql, [$amount, $amount, $uid]);
-            return (bool)$ret;
-        }
+    public function create($uid) {
         $data = [
             'uid' => $uid,
-            'balance' => $amount,
-            'income' => $amount,
+            'balance' => 0,
+            'income' => 0,
         ];
         return $this->db->table(self::TABLE)->insert($data);
+    }
+
+    public function reward($uid, $amount) {
+        $sql = 'update '.self::TABLE.' set balance=balance+?, income=income+?'.' where uid=?';
+        $ret = $this->db->query($sql, [$amount, $amount, $uid]);
+        return (bool)$ret;
     }
 
     public function withdraw($uid, $amount) {
