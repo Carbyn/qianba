@@ -26,10 +26,11 @@ class UserController extends \Explorer\ControllerAbstract {
         if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
+        $userModel = new UserModel();
+        $user = $userModel->fetch($this->uid);
         $walletModel = new WalletModel();
         $wallet = $walletModel->fetch($this->uid);
-        unset($wallet['uid'], $wallet['id']);
-        $this->outputSuccess(compact('wallet'));
+        $this->outputSuccess(compact('user', 'wallet'));
     }
 
 }

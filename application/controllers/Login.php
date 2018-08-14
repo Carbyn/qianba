@@ -30,7 +30,9 @@ class LoginController extends \Explorer\ControllerAbstract {
         }
         $userModel = new UserModel();
         $user = $userModel->fetch($id);
-        $this->outputSuccess(compact('user'));
+        $walletModel = new WalletModel();
+        $wallet = $walletModel->fetch($id);
+        $this->outputSuccess(compact('user', 'wallet'));
     }
 
 }

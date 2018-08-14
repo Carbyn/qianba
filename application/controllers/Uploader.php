@@ -2,7 +2,7 @@
 class UploaderController extends \Explorer\ControllerAbstract {
 
     public function imageAction() {
-        if (!$this->userId) {
+        if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
 	    $upload_path = APPLICATION_PATH.'/uploads';
