@@ -12,6 +12,9 @@ class Constants {
     const ERR_TASK_INCR_TASK_FAILED         = 2004;
     const ERR_TASK_REWARD_FAILED            = 2005;
     const ERR_TASK_INCOME_CREATE_FAILED     = 2006;
+    const ERR_TASK_IN_REVIEW                = 2007;
+    const ERR_TASK_UPDATE_FAILED            = 2008;
+    const ERR_TASK_CREATE_INFO_INVALID      = 2009;
 
     const ERR_UPLOADER_FAILED               = 3001;
     const ERR_UPLOADER_NO_IMAGE             = 3002;
@@ -22,6 +25,8 @@ class Constants {
     const ERR_WITHDRAW_UPDATE_RECEIPT_FAILED= 5002;
     const ERR_WITHDRAW_BALANCE_NOT_ENOUGH   = 5003;
     const ERR_WITHDRAW_FAILED               = 5004;
+    const ERR_WITHDRAW_RECORD_NOT_EXISTS    = 5005;
+    const ERR_WITHDRAW_REVIEW_FAILED        = 5006;
 
 
 
@@ -29,7 +34,8 @@ class Constants {
     const STATUS_MYTASK_APPROVED            = 2;
     const STATUS_MYTASK_UNAPPROVED          = 3;
 
-    const STATUS_TASK_OFFLINE               = 1;
+    const STATUS_TASK_OFFLINE               = 0;
+    const STATUS_TASK_ONLINE                = 1;
 
     const STATUS_WITHDRAW_IN_REVIEW         = 1;
     const STATUS_WITHDRAW_APPROVED          = 2;

@@ -13,12 +13,11 @@ class TaskController extends \Explorer\ControllerAbstract {
 
         $today = [];
         foreach($tasks as $task) {
-            $task = (array)$task;
             if (isset($mytasks[$task['id']])) {
-                if ($mytasks[$task['id']]->status == Constants::STATUS_MYTASK_APPROVED) {
+                if ($mytasks[$task['id']]['status'] == Constants::STATUS_MYTASK_APPROVED) {
                     continue;
                 } else {
-                    $task['completed_num'] = $mytasks[$task['id']]->completed_num;
+                    $task['completed_num'] = $mytasks[$task['id']]['completed_num'];
                 }
             } else {
                 $task['completed_num'] = 0;
@@ -34,19 +33,11 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
 
-        $taskModel = new TaskModel();
-        $tasks = $taskModel->fetchTasks();
         $mytaskModel = new MytaskModel();
-        $mytasks = $mytaskModel->fetchTasks($this->uid);
-
-        $history = [];
-        foreach($tasks as $task) {
-            $task = (array)$task;
-            if (isset($mytasks[$task['id']]) &&
-                $mytasks[$task['id']]->status == Constants::STATUS_MYTASK_APPROVED) {
-                $history[] = $task;
-            }
-        }
+        $mytasks = $mytaskModel->fetchCompletedTasks($this->uid);
+        $task_ids = array_keys($mytasks);
+        $taskModel = new TaskModel();
+        $history = $taskModel->batchFetch($task_ids);
         $history = array_values($history);
         $this->outputSuccess(compact('history'));
     }
@@ -64,15 +55,18 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
         $subtasks = $taskModel->fetchSubtasks($task_id);
-        $task_ids = array_keys($subtasks);
-
-        $mytaskModel = new MytaskModel();
-        $mytask = $mytaskModel->fetchTask($this->uid, $task_id);
-        $mysubtasks = $mytaskModel->fetchSubtasks($this->uid, $task_ids);
-        foreach($mysubtasks as $task_id => $mysubtask) {
-            $subtasks[$task_id]['mytask'] = $mysubtask;
+        if (!empty($subtasks)) {
+            $task_ids = array_keys($subtasks);
+            $mytaskModel = new MytaskModel();
+            $mytask = $mytaskModel->fetchTask($this->uid, $task_id);
+            $mysubtasks = $mytaskModel->fetchSubtasks($this->uid, $task_ids);
+            foreach($mysubtasks as $task_id => $mysubtask) {
+                $subtasks[$task_id]['mytask'] = $mysubtask;
+            }
+            $subtasks = array_values($subtasks);
+        } else {
+            $mytask = $subtasks = [];
         }
-        $subtasks = array_values($subtasks);
 
         $this->outputSuccess(compact('task', 'mytask', 'subtasks'));
     }
@@ -90,7 +84,73 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
         $mytaskModel = new MytaskModel();
-        $this->mytaskModel->completeSubtask($this->uid, $task_id, $screenshots);
+        $subtask = $mytaskModel->fetchSubtasks($this->uid, [$task_id]);
+        if (!empty($subtask)) {
+            return $this->outputError(Constants::ERR_TASK_IN_REVIEW, '任务已在审核中');
+        }
+        $mytaskModel->completeSubtask($this->uid, $task_id, $screenshots);
+        $this->outputSuccess();
+    }
+
+    public function createTaskAction() {
+        if (!$this->uid) {
+            return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
+        }
+        $task_desc = $this->getRequest()->getPost('task_desc');
+        $reward = (int)$this->getRequest()->getPost('reward');
+        $images = $this->getRequest()->getPost('images');
+
+        if (!$task_desc || !$reward || !$images) {
+            return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
+        }
+        $taskModel = new TaskModel();
+        $id = $taskModel->createTask($task_desc, $reward, $images);
+        if (!$id) {
+            return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
+        }
+        $this->outputSuccess(compact('id'));
+    }
+
+    public function createSubtaskAction() {
+        if (!$this->uid) {
+            return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
+        }
+        $parent_id = $this->getRequest()->getPost('parent_id');
+        $task_desc = $this->getRequest()->getPost('task_desc');
+        $reward = (int)$this->getRequest()->getPost('reward');
+        $images = $this->getRequest()->getPost('images');
+        $demos = $this->getRequest()->getPost('demos');
+
+        if (!$parent_id || !$task_desc || !$reward || !$images || !$demos) {
+            return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
+        }
+        $taskModel = new TaskModel();
+        $task = $taskModel->fetch($parent_id);
+        if (!$task) {
+            return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
+        }
+        $id = $taskModel->createSubtask($parent_id, $task_desc, $reward, $images, $demos);
+        if (!$id) {
+            return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
+        }
+        $this->outputSuccess(compact('id'));
+    }
+
+    public function updateAction() {
+        if (!$this->uid) {
+            return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
+        }
+
+        $task_id = $this->getRequest()->getQuery('id');
+        $online = $this->getRequest()->getQuery('online');
+        $taskModel = new TaskModel();
+        $task = $taskModel->fetch($task_id);
+        if (!$task) {
+            return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
+        }
+        if (!$taskModel->update($task_id, $online)) {
+            return $this->outputError(Constants::ERR_TASK_UPDATE_FAILED, '更新任务失败');
+        }
         $this->outputSuccess();
     }
 

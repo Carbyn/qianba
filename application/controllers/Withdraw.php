@@ -36,7 +36,7 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         }
         $page = (int)$this->getRequest()->getQuery('page', 1);
         $withdrawModel = new WithdrawModel();
-        $records = $withdrawModel->fetch($this->uid, $page);
+        $records = $withdrawModel->fetchAll($this->uid, $page);
         $this->outputSuccess(compact('records'));
     }
 

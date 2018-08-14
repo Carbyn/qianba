@@ -14,7 +14,19 @@ class MytaskModel extends AbstractModel {
         $tasks = $this->db->table(self::TABLE)->where($where)->getAll();
         $ret = [];
         foreach($tasks as $task) {
-            $ret[$task->task_id] = $task;
+            $ret[$task->task_id] = (array)$task;
+        }
+        return $ret;
+    }
+
+    public function fetchCompletedTasks($uid) {
+        $where['uid'] = $uid;
+        $where['is_subtask'] = 0;
+        $where['status'] = Constants::STATUS_MYTASK_APPROVED;
+        $tasks = $this->db->table(self::TABLE)->where($where)->getAll();
+        $ret = [];
+        foreach($tasks as $task) {
+            $ret[$task->task_id] = (array)$task;
         }
         return $ret;
     }
@@ -26,7 +38,7 @@ class MytaskModel extends AbstractModel {
             ->getAll();
         $ret = [];
         foreach($tasks as $task) {
-            $ret[$task->task_id] = $task;
+            $ret[$task->task_id] = (array)$task;
         }
         return $ret;
     }

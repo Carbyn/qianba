@@ -9,20 +9,31 @@ class TaskModel extends AbstractModel {
     }
 
     public function createSubtask($parent_id, $task_desc, $reward, $images, $demos) {
-        $data = compact('parent_id', 'task_desc,', 'reward', 'images', 'demos');
-        if ($this->db->table(self::TABLE)->insert($data)) {
+        $data = compact('parent_id', 'task_desc', 'reward', 'images', 'demos');
+        $id = $this->db->table(self::TABLE)->insert($data);
+        if ($id) {
             $sql = 'update '.self::TABLE.' set subtasks=subtasks+1 where id=?';
-            return $this->db->query($sql, [$parent_id]);
+            $this->db->query($sql, [$parent_id]);
+            return $id;
         }
         return false;
     }
 
-    public function fetchTasks() {
+    public function fetchTasks($online = true) {
         $where['parent_id'] = 0;
-        return $this->db->table(self::TABLE)
+        if ($online) {
+            $where['status'] = Constants::STATUS_TASK_ONLINE;
+        }
+        $tasks = $this->db->table(self::TABLE)
             ->where($where)
             ->orderBy('id', 'DESC')
             ->getAll();
+
+        $ret = [];
+        foreach($tasks as $task) {
+            $ret[$task->id] = (array)$task;
+        }
+        return $ret;
     }
 
     public function fetchSubtasks($id) {
@@ -34,7 +45,7 @@ class TaskModel extends AbstractModel {
 
         $ret = [];
         foreach($tasks as $task) {
-            $ret[$task->id] = $ret;
+            $ret[$task->id] = (array)$task;
         }
         return $ret;
     }
@@ -48,10 +59,14 @@ class TaskModel extends AbstractModel {
         return $this->db->table(self::TABLE)->in('id', $ids)->getAll();
     }
 
-    public function offline($id) {
+    public function update($id, $online) {
         $where['id'] = $id;
         $orWhere['parent_id'] = $id;
-        $update['status'] = Constants::STATUS_TASK_OFFLINE;
+        if ($online) {
+            $update['status'] = Constants::STATUS_TASK_ONLINE;
+        } else {
+            $update['status'] = Constants::STATUS_TASK_OFFLINE;
+        }
         return $this->db->table(self::TABLE)->where($where)
             ->orWhere($orWhere)
             ->update($update);

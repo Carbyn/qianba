@@ -1,6 +1,6 @@
 drop table if exists `mytask`;
 create table `mytask` (
-    `id` bigint(20) unsigned not null default 0 comment 'auto incr id',
+    `id` bigint(20) unsigned auto_increment comment 'auto incr id',
     `uid` bigint(20) unsigned not null default 0 comment 'user id',
     `task_id` bigint(20) unsigned not null default 0 comment 'task id',
     `is_subtask` tinyint(3) unsigned not null default 0 comment 'is subtask',

@@ -1,6 +1,6 @@
 drop table if exists `income`;
 create table `income` (
-    `id` bigint(20) unsigned not null default 0 comment 'auto incr id',
+    `id` bigint(20) unsigned auto_increment comment 'auto incr id',
     `uid` bigint(20) unsigned not null default 0 comment 'user id',
     `task_id` bigint(20) unsigned not null default 0 comment 'task id',
     `task_desc` varchar(64) not null default '' comment 'task desc',
