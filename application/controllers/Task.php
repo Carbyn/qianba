@@ -33,12 +33,14 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
 
+        $history = [];
         $mytaskModel = new MytaskModel();
         $mytasks = $mytaskModel->fetchCompletedTasks($this->uid);
-        $task_ids = array_keys($mytasks);
-        $taskModel = new TaskModel();
-        $history = $taskModel->batchFetch($task_ids);
-        $history = array_values($history);
+        if (!empty($mytasks)) {
+            $task_ids = array_keys($mytasks);
+            $taskModel = new TaskModel();
+            $history = $taskModel->batchFetch($task_ids);
+        }
         $this->outputSuccess(compact('history'));
     }
 
