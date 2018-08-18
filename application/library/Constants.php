@@ -40,6 +40,5 @@ class Constants {
     const STATUS_WITHDRAW_IN_REVIEW         = 1;
     const STATUS_WITHDRAW_APPROVED          = 2;
     const STATUS_WITHDRAW_UNAPPROVED        = 3;
-    const STATUS_WITHDRAW_FAILED            = 4;
 
 }
