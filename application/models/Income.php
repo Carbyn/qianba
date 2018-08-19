@@ -14,6 +14,7 @@ class IncomeModel extends AbstractModel {
 
         foreach($records as &$row) {
             $row->created_at = date('Y-m-d H:i:s', $row->created_at);
+            $row->income = $row->income > 0 ? number_format($row->income/Constants::PRECISION, 3) : 0;
         }
         return $records;
     }
@@ -23,7 +24,7 @@ class IncomeModel extends AbstractModel {
             'uid' => $uid,
             'task_id' => $task_id,
             'task_desc' => $task_desc,
-            'income' => $income,
+            'income' => $income * Constants::PRECISION,
             'created_at' => time(),
         ];
         return $this->db->table(self::TABLE)->insert($data);

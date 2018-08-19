@@ -5,7 +5,11 @@ class WithdrawModel extends AbstractModel {
 
     public function fetch($id) {
         $where['id'] = $id;
-        return $this->db->table(self::TABLE)->where($where)->get();
+        $record = $this->db->table(self::TABLE)->where($where)->get();
+        if ($record) {
+            $record->amount = $record->amount > 0 ? number_format($record->amount/Constants::PRECISION, 3) : 0;
+        }
+        return $record;
     }
 
     public function fetchAll($uid, $page) {
@@ -19,6 +23,7 @@ class WithdrawModel extends AbstractModel {
 
         foreach($records as &$row) {
             $row->created_at = date('Y-m-d H:i:s', $row->created_at);
+            $row->amount = $row->amount > 0 ? number_format($row->amount/Constants::PRECISION, 3) : 0;
         }
         return $records;
     }
@@ -26,7 +31,7 @@ class WithdrawModel extends AbstractModel {
     public function create($uid, $amount) {
         $data = [
             'uid' => $uid,
-            'amount' => $amount,
+            'amount' => $amount * Constants::PRECISION ,
             'status' => Constants::STATUS_WITHDRAW_IN_REVIEW,
             'created_at' => time(),
         ];

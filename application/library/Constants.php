@@ -41,4 +41,6 @@ class Constants {
     const STATUS_WITHDRAW_APPROVED          = 2;
     const STATUS_WITHDRAW_UNAPPROVED        = 3;
 
+    const PRECISION = 1000;
+
 }

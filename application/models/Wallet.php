@@ -6,7 +6,9 @@ class WalletModel extends AbstractModel {
     public function fetch($uid) {
         $where['uid'] = $uid;
         $wallet = $this->db->table(self::TABLE)->where($where)->get();
-        return $wallet;
+        if ($wallet) {
+            $wallet->balance = $wallet->balance > 0 ? number_format($wallet->balance/Constants::PRECISION, 3) : 0;
+        }
     }
 
     public function create($uid) {
@@ -19,12 +21,14 @@ class WalletModel extends AbstractModel {
     }
 
     public function reward($uid, $amount) {
+        $amount = $amount * Constants::PRECISION;
         $sql = 'update '.self::TABLE.' set balance=balance+?, income=income+?'.' where uid=?';
         $ret = $this->db->query($sql, [$amount, $amount, $uid]);
         return (bool)$ret;
     }
 
     public function withdraw($uid, $amount) {
+        $amount = $amount * Constants::PRECISION;
         $sql = 'update '.self::TABLE.' set balance=balance-?'
             .' where uid=?';
         $ret = $this->db->query($sql, [$amount, $uid]);

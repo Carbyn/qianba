@@ -4,11 +4,13 @@ class TaskModel extends AbstractModel {
     const TABLE = 'task';
 
     public function createTask($task_desc, $reward, $images) {
+        $reward = $reward * Constants::PRECISION;
         $data = compact('task_desc', 'reward', 'images');
         return $this->db->table(self::TABLE)->insert($data);
     }
 
     public function createSubtask($parent_id, $task_desc, $url, $reward, $images, $demos) {
+        $reward = $reward * Constants::PRECISION;
         $data = compact('parent_id', 'task_desc', 'url', 'reward', 'images', 'demos');
         $id = $this->db->table(self::TABLE)->insert($data);
         if ($id) {
@@ -31,6 +33,7 @@ class TaskModel extends AbstractModel {
 
         $ret = [];
         foreach($tasks as $task) {
+            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
             $ret[$task->id] = (array)$task;
         }
         return $ret;
@@ -45,6 +48,7 @@ class TaskModel extends AbstractModel {
 
         $ret = [];
         foreach($tasks as $task) {
+            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
             $ret[$task->id] = (array)$task;
         }
         return $ret;
@@ -52,11 +56,19 @@ class TaskModel extends AbstractModel {
 
     public function fetch($id) {
         $where['id'] = $id;
-        return $this->db->table(self::TABLE)->where($where)->get();
+        $task = $this->db->table(self::TABLE)->where($where)->get();
+        if ($task) {
+            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
+        }
+        return $task;
     }
 
     public function batchFetch($ids) {
-        return $this->db->table(self::TABLE)->in('id', $ids)->getAll();
+        $tasks = $this->db->table(self::TABLE)->in('id', $ids)->getAll();
+        foreach($tasks as &$task) {
+            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
+        }
+        return $tasks;
     }
 
     public function update($id, $online) {

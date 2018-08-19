@@ -8,7 +8,7 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         $amount = (int)$this->getRequest()->getPost('amount');
         $receipt = $this->getRequest()->getPost('receipt');
         if (!$receipt) {
-            return $this->outputError(Constants::ERR_WITHDRAW_NO_RECEIPT, '请上传收款码');
+            return $this->outputError(Constants::ERR_WITHDRAW_NO_RECEIPT, '请提交收款人');
         }
 
         $walletModel = new WalletModel();
@@ -17,7 +17,7 @@ class WithdrawController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_WITHDRAW_BALANCE_NOT_ENOUGH, '余额不足');
         }
         if (!$walletModel->updateReceipt($this->uid, $receipt)) {
-            return $this->outputError(Constants::ERR_WITHDRAW_UPDATE_RECEIPT_FAILED, '更新收款码失败，请稍后重试');
+            return $this->outputError(Constants::ERR_WITHDRAW_UPDATE_RECEIPT_FAILED, '更新收款人失败，请稍后重试');
         }
         if (!$walletModel->withdraw($this->uid, $amount)) {
             return $this->outputError(Constants::ERR_WITHDRAW_FAILED, '提现失败，请稍后重试');
