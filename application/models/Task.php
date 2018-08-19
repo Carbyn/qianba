@@ -8,8 +8,8 @@ class TaskModel extends AbstractModel {
         return $this->db->table(self::TABLE)->insert($data);
     }
 
-    public function createSubtask($parent_id, $task_desc, $reward, $images, $demos) {
-        $data = compact('parent_id', 'task_desc', 'reward', 'images', 'demos');
+    public function createSubtask($parent_id, $task_desc, $url, $reward, $images, $demos) {
+        $data = compact('parent_id', 'task_desc', 'url', 'reward', 'images', 'demos');
         $id = $this->db->table(self::TABLE)->insert($data);
         if ($id) {
             $sql = 'update '.self::TABLE.' set subtasks=subtasks+1 where id=?';

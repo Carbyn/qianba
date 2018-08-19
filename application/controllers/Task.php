@@ -119,6 +119,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
         $parent_id = $this->getRequest()->getPost('parent_id');
         $task_desc = $this->getRequest()->getPost('task_desc');
+        $url = $this->getRequest()->getPost('url');
         $reward = (int)$this->getRequest()->getPost('reward');
         $images = $this->getRequest()->getPost('images');
         $demos = $this->getRequest()->getPost('demos');
@@ -131,7 +132,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        $id = $taskModel->createSubtask($parent_id, $task_desc, $reward, $images, $demos);
+        $id = $taskModel->createSubtask($parent_id, $task_desc, $url, $reward, $images, $demos);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }

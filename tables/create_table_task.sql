@@ -4,6 +4,7 @@ create table `task` (
     `parent_id` bigint(20) unsigned not null default 0 comment 'parent task id',
     `subtasks` tinyint(3) unsigned not null default 0 comment 'subtasks num',
     `task_desc` varchar(128) not null default '' comment 'task desc',
+    `url` varchar(128) not null default '' comment 'task download or detail url',
     `reward` bigint(20) unsigned not null default 0 comment 'task reward, unit 0.001',
     `images` varchar(1024) not null default '' comment 'task desc images, seperated by |',
     `demos` varchar(1024) not null default '' comment 'task upload image demos, seperated by |',
