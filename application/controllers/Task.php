@@ -98,15 +98,15 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
-        $task_desc = $this->getRequest()->getPost('task_desc');
+        $name = $this->getRequest()->getPost('name');
         $reward = (int)$this->getRequest()->getPost('reward');
         $images = $this->getRequest()->getPost('images');
 
-        if (!$task_desc || !$reward || !$images) {
+        if (!$name || !$reward || !$images) {
             return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
         }
         $taskModel = new TaskModel();
-        $id = $taskModel->createTask($task_desc, $reward, $images);
+        $id = $taskModel->createTask($name, $reward, $images);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
@@ -117,10 +117,12 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
+        $name = $this->getRequest()->getPost('name');
         $parent_id = $this->getRequest()->getPost('parent_id');
         $task_desc = $this->getRequest()->getPost('task_desc');
         $url = $this->getRequest()->getPost('url');
         $reward = (int)$this->getRequest()->getPost('reward');
+        $app_reward = (int)$this->getRequest()->getPost('app_reward');
         $images = $this->getRequest()->getPost('images');
         $demos = $this->getRequest()->getPost('demos');
 
@@ -132,7 +134,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        $id = $taskModel->createSubtask($parent_id, $task_desc, $url, $reward, $images, $demos);
+        $id = $taskModel->createSubtask($name, $parent_id, $task_desc, $url, $reward, $app_reward, $images, $demos);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
@@ -192,7 +194,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
 
         $incomeModel = new IncomeModel();
-        if (!$incomeModel->create($mytask->uid, $mytask->task_id, $subtask->task_desc, $subtask->reward)) {
+        if (!$incomeModel->create($mytask->uid, $mytask->task_id, $subtask->name, $subtask->reward)) {
             return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '任务添加收入记录失败');
         }
         $this->outputSuccess();

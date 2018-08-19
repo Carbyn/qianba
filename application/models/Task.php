@@ -3,15 +3,15 @@ class TaskModel extends AbstractModel {
 
     const TABLE = 'task';
 
-    public function createTask($task_desc, $reward, $images) {
+    public function createTask($name, $reward, $images) {
         $reward = $reward * Constants::PRECISION;
-        $data = compact('task_desc', 'reward', 'images');
+        $data = compact('name', 'reward', 'images');
         return $this->db->table(self::TABLE)->insert($data);
     }
 
-    public function createSubtask($parent_id, $task_desc, $url, $reward, $images, $demos) {
+    public function createSubtask($name, $parent_id, $task_desc, $url, $reward, $app_reward, $images, $demos) {
         $reward = $reward * Constants::PRECISION;
-        $data = compact('parent_id', 'task_desc', 'url', 'reward', 'images', 'demos');
+        $data = compact('name', 'parent_id', 'task_desc', 'url', 'reward', 'app_reward', 'images', 'demos');
         $id = $this->db->table(self::TABLE)->insert($data);
         if ($id) {
             $sql = 'update '.self::TABLE.' set subtasks=subtasks+1 where id=?';
