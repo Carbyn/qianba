@@ -33,6 +33,9 @@ class LoginController extends \Explorer\ControllerAbstract {
         }
         $userModel = new UserModel();
         $user = $userModel->fetch($id);
+        if (!$user) {
+            return $this->outputError(Constants::ERR_LOGIN_WRONG_TOKEN, 'token无效');
+        }
         $walletModel = new WalletModel();
         $wallet = $walletModel->fetch($id);
         $this->outputSuccess(compact('user', 'wallet'));

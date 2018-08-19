@@ -99,7 +99,7 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
         $name = $this->getRequest()->getPost('name');
-        $reward = (int)$this->getRequest()->getPost('reward');
+        $reward = $this->getRequest()->getPost('reward');
         $images = $this->getRequest()->getPost('images');
 
         if (!$name || !$reward || !$images) {
@@ -121,8 +121,8 @@ class TaskController extends \Explorer\ControllerAbstract {
         $parent_id = $this->getRequest()->getPost('parent_id');
         $task_desc = $this->getRequest()->getPost('task_desc');
         $url = $this->getRequest()->getPost('url');
-        $reward = (int)$this->getRequest()->getPost('reward');
-        $app_reward = (int)$this->getRequest()->getPost('app_reward');
+        $reward = $this->getRequest()->getPost('reward');
+        $app_reward = $this->getRequest()->getPost('app_reward');
         $images = $this->getRequest()->getPost('images');
         $demos = $this->getRequest()->getPost('demos');
 

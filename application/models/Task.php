@@ -11,6 +11,7 @@ class TaskModel extends AbstractModel {
 
     public function createSubtask($name, $parent_id, $task_desc, $url, $reward, $app_reward, $images, $demos) {
         $reward = $reward * Constants::PRECISION;
+        $app_reward = $app_reward * Constants::PRECISION;
         $data = compact('name', 'parent_id', 'task_desc', 'url', 'reward', 'app_reward', 'images', 'demos');
         $id = $this->db->table(self::TABLE)->insert($data);
         if ($id) {
@@ -34,6 +35,7 @@ class TaskModel extends AbstractModel {
         $ret = [];
         foreach($tasks as $task) {
             $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
+            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
             $ret[$task->id] = (array)$task;
         }
         return $ret;
@@ -49,6 +51,7 @@ class TaskModel extends AbstractModel {
         $ret = [];
         foreach($tasks as $task) {
             $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
+            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
             $ret[$task->id] = (array)$task;
         }
         return $ret;
@@ -59,6 +62,7 @@ class TaskModel extends AbstractModel {
         $task = $this->db->table(self::TABLE)->where($where)->get();
         if ($task) {
             $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
+            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
         }
         return $task;
     }
@@ -67,6 +71,7 @@ class TaskModel extends AbstractModel {
         $tasks = $this->db->table(self::TABLE)->in('id', $ids)->getAll();
         foreach($tasks as &$task) {
             $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
+            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
         }
         return $tasks;
     }
