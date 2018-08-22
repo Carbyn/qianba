@@ -5,7 +5,7 @@ class IncomeModel extends AbstractModel {
 
     public function fetch($uid, $page) {
         $where['uid'] = $uid;
-        $limit = 20;
+        $limit = Constants::PAGESIZE;
         $offset = ($page - 1) * $limit;
         $records = $this->db->table(self::TABLE)->where($where)
             ->orderBy('id', 'DESC')
@@ -14,7 +14,7 @@ class IncomeModel extends AbstractModel {
 
         foreach($records as &$row) {
             $row->created_at = date('Y-m-d H:i:s', $row->created_at);
-            $row->income = $row->income > 0 ? number_format($row->income/Constants::PRECISION, 3) : 0;
+            $row->income = $row->income > 0 ? sprintf('%.2f', $row->income/Constants::PRECISION) : 0;
         }
         return $records;
     }

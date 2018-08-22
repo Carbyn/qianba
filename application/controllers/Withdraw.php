@@ -13,10 +13,11 @@ class WithdrawController extends \Explorer\ControllerAbstract {
 
         $walletModel = new WalletModel();
         $wallet = $walletModel->fetch($this->uid);
-        if (!$wallet || $wallet->balance < $amount) {
+        if (!$wallet || $wallet->balance * Constants::PRECISION < $amount * Constants::PRECISION) {
             return $this->outputError(Constants::ERR_WITHDRAW_BALANCE_NOT_ENOUGH, '余额不足');
         }
-        if (!$walletModel->updateReceipt($this->uid, $receipt)) {
+        if ($wallet->receipt != $receipt
+            && !$walletModel->updateReceipt($this->uid, $receipt)) {
             return $this->outputError(Constants::ERR_WITHDRAW_UPDATE_RECEIPT_FAILED, '更新收款人失败，请稍后重试');
         }
         if (!$walletModel->withdraw($this->uid, $amount)) {
@@ -27,7 +28,9 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         if (!$withdrawModel->create($this->uid, $amount)) {
             return $this->outputError(Constants::ERR_WITHDRAW_FAILED, '提现失败，请稍后重试');
         }
-        $this->outputSuccess();
+
+        $wallet = $walletModel->fetch($this->uid);
+        $this->outputSuccess(compact('wallet'));
     }
 
     public function recordAction() {
@@ -37,7 +40,8 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         $page = (int)$this->getRequest()->getQuery('page', 1);
         $withdrawModel = new WithdrawModel();
         $records = $withdrawModel->fetchAll($this->uid, $page);
-        $this->outputSuccess(compact('records'));
+        $is_end = count($records) < Constants::PAGESIZE;
+        $this->outputSuccess(compact('records', 'is_end'));
     }
 
     public function reviewAction() {

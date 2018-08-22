@@ -7,7 +7,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
 
         $taskModel = new TaskModel();
-        $tasks = $taskModel->fetchTasks();
+        $tasks = $taskModel->fetchTasks(true, $this->os);
         $mytaskModel = new MytaskModel();
         $mytasks = $mytaskModel->fetchTasks($this->uid);
 
@@ -70,7 +70,10 @@ class TaskController extends \Explorer\ControllerAbstract {
             $mytask = $subtasks = [];
         }
 
-        $this->outputSuccess(compact('task', 'mytask', 'subtasks'));
+        // TODO
+        $guide = 'https://qianba.oss-cn-huhehaote.aliyuncs.com/mp4/new_guide.mp4';
+
+        $this->outputSuccess(compact('task', 'mytask', 'subtasks', 'guide'));
     }
 
     public function completeAction() {
@@ -86,11 +89,18 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
         $mytaskModel = new MytaskModel();
-        $subtask = $mytaskModel->fetchSubtasks($this->uid, [$task_id]);
-        if (!empty($subtask)) {
-            return $this->outputError(Constants::ERR_TASK_IN_REVIEW, '任务已在审核中');
+        $subtask = $mytaskModel->fetchTask($this->uid, $task_id);
+        if ($subtask) {
+            switch($subtask->status) {
+            case Constants::STATUS_MYTASK_IN_REVIEW:
+            case Constants::STATUS_MYTASK_APPROVED:
+                return $this->outputError(Constants::ERR_TASK_IN_REVIEW, '任务已提交');
+            case Constants::STATUS_MYTASK_UNAPPROVED:
+                $mytaskModel->recompleteSubtask($this->uid, $task_id, $screenshots);
+            }
+        } else {
+            $mytaskModel->completeSubtask($this->uid, $task_id, $screenshots);
         }
-        $mytaskModel->completeSubtask($this->uid, $task_id, $screenshots);
         $this->outputSuccess();
     }
 
@@ -121,6 +131,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         $parent_id = $this->getRequest()->getPost('parent_id');
         $task_desc = $this->getRequest()->getPost('task_desc');
         $url = $this->getRequest()->getPost('url');
+        $code = $this->getRequest()->getPost('code');
         $reward = $this->getRequest()->getPost('reward');
         $app_reward = $this->getRequest()->getPost('app_reward');
         $images = $this->getRequest()->getPost('images');
@@ -134,7 +145,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        $id = $taskModel->createSubtask($name, $parent_id, $task_desc, $url, $reward, $app_reward, $images, $demos);
+        $id = $taskModel->createSubtask($name, $parent_id, $task_desc, $url, $code, $reward, $app_reward, $images, $demos);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
@@ -184,7 +195,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         $taskModel = new TaskModel();
         $subtask = $taskModel->fetch($mytask->task_id);
         $task = $taskModel->fetch($subtask->parent_id);
-        if (!$mytaskModel->incrTask($this->uid, $task->id, $task->subtasks)) {
+        if (!$mytaskModel->incrTask($mytask->uid, $task->id, $task->subtasks)) {
             return $this->outputError(Constants::ERR_TASK_INCR_TASK_FAILED, '更新父任务失败');
         }
 
@@ -194,7 +205,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
 
         $incomeModel = new IncomeModel();
-        if (!$incomeModel->create($mytask->uid, $mytask->task_id, $subtask->name, $subtask->reward)) {
+        if (!$incomeModel->create($mytask->uid, $mytask->task_id, $task->name.$subtask->name, $subtask->reward)) {
             return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '任务添加收入记录失败');
         }
         $this->outputSuccess();

@@ -62,6 +62,13 @@ class MytaskModel extends AbstractModel {
         return $this->db->table(self::TABLE)->insert($data);
     }
 
+    public function recompleteSubtask($uid, $task_id, $screenshots) {
+        $status = Constants::STATUS_MYTASK_IN_REVIEW;
+        $update = compact('screenshots', 'status');
+        $where = compact('uid', 'task_id');
+        return $this->db->table(self::TABLE)->where($where)->update($update);
+    }
+
     public function review($id, $approved) {
         $where['id'] = $id;
         if ($approved) {

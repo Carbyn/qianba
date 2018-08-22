@@ -7,8 +7,10 @@ class WalletModel extends AbstractModel {
         $where['uid'] = $uid;
         $wallet = $this->db->table(self::TABLE)->where($where)->get();
         if ($wallet) {
-            $wallet->balance = $wallet->balance > 0 ? number_format($wallet->balance/Constants::PRECISION, 3) : 0;
+            $wallet->balance = $wallet->balance > 0 ? sprintf('%.2f', $wallet->balance/Constants::PRECISION) : 0;
+            $wallet->income = $wallet->income > 0 ? sprintf('%.2f', $wallet->income/Constants::PRECISION) : 0;
         }
+        return $wallet;
     }
 
     public function create($uid) {

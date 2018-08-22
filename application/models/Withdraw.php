@@ -7,14 +7,14 @@ class WithdrawModel extends AbstractModel {
         $where['id'] = $id;
         $record = $this->db->table(self::TABLE)->where($where)->get();
         if ($record) {
-            $record->amount = $record->amount > 0 ? number_format($record->amount/Constants::PRECISION, 3) : 0;
+            $record->amount = $record->amount > 0 ? sprintf('%.2f', $record->amount/Constants::PRECISION) : 0;
         }
         return $record;
     }
 
     public function fetchAll($uid, $page) {
         $where['uid'] = $uid;
-        $limit = 20;
+        $limit = Constants::PAGESIZE;
         $offset = ($page - 1) * $limit;
         $records = $this->db->table(self::TABLE)->where($where)
             ->orderBy('id', 'DESC')
@@ -23,7 +23,7 @@ class WithdrawModel extends AbstractModel {
 
         foreach($records as &$row) {
             $row->created_at = date('Y-m-d H:i:s', $row->created_at);
-            $row->amount = $row->amount > 0 ? number_format($row->amount/Constants::PRECISION, 3) : 0;
+            $row->amount = $row->amount > 0 ? sprintf('%.2f', $row->amount/Constants::PRECISION) : 0;
         }
         return $records;
     }

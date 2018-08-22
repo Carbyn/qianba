@@ -41,6 +41,10 @@ class Constants {
     const STATUS_WITHDRAW_APPROVED          = 2;
     const STATUS_WITHDRAW_UNAPPROVED        = 3;
 
-    const PRECISION = 1000;
+    const PRECISION = 100;
+    const PAGESIZE = 20;
+
+    const OS_ANDROID = 'android';
+    const OS_IOS = 'ios';
 
 }

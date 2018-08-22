@@ -4,11 +4,18 @@ class ControllerAbstract extends \Yaf\Controller_Abstract {
 
     public $uid;
     public $user;
+    public $os;
 
     public function init() {
+        $os = strtolower($this->getRequest()->getQuery('os'));
+        if ($os == \Constants::OS_IOS) {
+            $this->os = \Constants::OS_IOS;
+        } else {
+            $this->os = \Constants::OS_ANDROID;
+        }
         // TODO
         if (isset($_COOKIE['carbyn'])) {
-            $this->uid = 1;
+            $this->uid = 2;
             $userModel = new \UserModel();
             $this->user = $userModel->fetch($this->uid);
             return;

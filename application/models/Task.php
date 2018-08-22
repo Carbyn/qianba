@@ -9,10 +9,10 @@ class TaskModel extends AbstractModel {
         return $this->db->table(self::TABLE)->insert($data);
     }
 
-    public function createSubtask($name, $parent_id, $task_desc, $url, $reward, $app_reward, $images, $demos) {
+    public function createSubtask($name, $parent_id, $task_desc, $url, $code, $reward, $app_reward, $images, $demos) {
         $reward = $reward * Constants::PRECISION;
         $app_reward = $app_reward * Constants::PRECISION;
-        $data = compact('name', 'parent_id', 'task_desc', 'url', 'reward', 'app_reward', 'images', 'demos');
+        $data = compact('name', 'parent_id', 'task_desc', 'url', 'code', 'reward', 'app_reward', 'images', 'demos');
         $id = $this->db->table(self::TABLE)->insert($data);
         if ($id) {
             $sql = 'update '.self::TABLE.' set subtasks=subtasks+1 where id=?';
@@ -22,11 +22,12 @@ class TaskModel extends AbstractModel {
         return false;
     }
 
-    public function fetchTasks($online = true) {
+    public function fetchTasks($online = true, $os = Constants::OS_ANDROID) {
         $where['parent_id'] = 0;
         if ($online) {
             $where['status'] = Constants::STATUS_TASK_ONLINE;
         }
+        $where['os'] = $os == Constants::OS_ANDROID ? 0 : 1;
         $tasks = $this->db->table(self::TABLE)
             ->where($where)
             ->orderBy('id', 'DESC')
@@ -34,8 +35,8 @@ class TaskModel extends AbstractModel {
 
         $ret = [];
         foreach($tasks as $task) {
-            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
-            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
+            $task->reward = $task->reward > 0 ? sprintf('%.2f', $task->reward/Constants::PRECISION) : 0;
+            $task->app_reward = $task->app_reward > 0 ? sprintf('%.2f', $task->app_reward/Constants::PRECISION) : 0;
             $ret[$task->id] = (array)$task;
         }
         return $ret;
@@ -50,8 +51,8 @@ class TaskModel extends AbstractModel {
 
         $ret = [];
         foreach($tasks as $task) {
-            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
-            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
+            $task->reward = $task->reward > 0 ? sprintf('%.2f', $task->reward/Constants::PRECISION) : 0;
+            $task->app_reward = $task->app_reward > 0 ? sprintf('%.2f', $task->app_reward/Constants::PRECISION) : 0;
             $ret[$task->id] = (array)$task;
         }
         return $ret;
@@ -61,8 +62,8 @@ class TaskModel extends AbstractModel {
         $where['id'] = $id;
         $task = $this->db->table(self::TABLE)->where($where)->get();
         if ($task) {
-            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
-            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
+            $task->reward = $task->reward > 0 ? sprintf('%.2f', $task->reward/Constants::PRECISION) : 0;
+            $task->app_reward = $task->app_reward > 0 ? sprintf('%.2f', $task->app_reward/Constants::PRECISION) : 0;
         }
         return $task;
     }
@@ -70,8 +71,8 @@ class TaskModel extends AbstractModel {
     public function batchFetch($ids) {
         $tasks = $this->db->table(self::TABLE)->in('id', $ids)->getAll();
         foreach($tasks as &$task) {
-            $task->reward = $task->reward > 0 ? number_format($task->reward/Constants::PRECISION, 3) : 0;
-            $task->app_reward = $task->app_reward > 0 ? number_format($task->app_reward/Constants::PRECISION, 3) : 0;
+            $task->reward = $task->reward > 0 ? sprintf('%.2f', $task->reward/Constants::PRECISION) : 0;
+            $task->app_reward = $task->app_reward > 0 ? sprintf('%.2f', $task->app_reward/Constants::PRECISION) : 0;
         }
         return $tasks;
     }
