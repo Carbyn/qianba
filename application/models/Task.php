@@ -3,9 +3,10 @@ class TaskModel extends AbstractModel {
 
     const TABLE = 'task';
 
-    public function createTask($name, $reward, $images) {
+    public function createTask($name, $os, $reward, $images) {
         $reward = $reward * Constants::PRECISION;
-        $data = compact('name', 'reward', 'images');
+        $os = $os == Constants::OS_ANDROID ? 0 : 1;
+        $data = compact('name', 'os', 'reward', 'images');
         return $this->db->table(self::TABLE)->insert($data);
     }
 

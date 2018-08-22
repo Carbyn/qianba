@@ -109,14 +109,15 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
         $name = $this->getRequest()->getPost('name');
+        $os = $this->getRequest()->getPost('os');
         $reward = $this->getRequest()->getPost('reward');
         $images = $this->getRequest()->getPost('images');
 
-        if (!$name || !$reward || !$images) {
+        if (!$name || !$os || !$reward || !$images) {
             return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
         }
         $taskModel = new TaskModel();
-        $id = $taskModel->createTask($name, $reward, $images);
+        $id = $taskModel->createTask($name, $os, $reward, $images);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
