@@ -47,4 +47,19 @@ class Constants {
     const OS_ANDROID = 'android';
     const OS_IOS = 'ios';
 
+    private static $env;
+    public static function env() {
+        if (!self::$env) {
+            self::$env = 'dev';
+            $envPath = APPLICATION_PATH.'/.env';
+            if (@file_exists($envPath)) {
+                $envConfig = new \Yaf\Config\Ini($envPath);
+                if ($envConfig->env == 'production') {
+                    self::$env = $envConfig->env;
+                }
+            }
+        }
+        return self::$env;
+    }
+
 }

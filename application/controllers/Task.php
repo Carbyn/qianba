@@ -70,8 +70,11 @@ class TaskController extends \Explorer\ControllerAbstract {
             $mytask = $subtasks = [];
         }
 
-        // TODO
-        $guide = 'https://qianba.oss-cn-huhehaote.aliyuncs.com/mp4/new_guide.mp4';
+        if ($this->os == Constants::OS_IOS) {
+            $guide = 'http://qianba.oss-cn-huhehaote.aliyuncs.com/mp4/ios_guide.mp4';
+        } else {
+            $guide = 'https://qianba.oss-cn-huhehaote.aliyuncs.com/mp4/new_guide.mp4';
+        }
 
         $this->outputSuccess(compact('task', 'mytask', 'subtasks', 'guide'));
     }

@@ -23,7 +23,8 @@ class UploaderController extends \Explorer\ControllerAbstract {
         } else {
             return $this->outputError(Constants::ERR_UPLOADER_FAILED, '请重试');
         }
-        $image = 'https://qianba.1024.pm/uploads/'.$img_name;
+        $config = new Yaf\Config\Ini(APPLICATION_PATH.'/conf/common.ini', \Constants::env());
+        $image = $config->common->domain.'/uploads/'.$img_name;
         $this->outputSuccess(compact('image'));
     }
 
