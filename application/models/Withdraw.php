@@ -31,7 +31,7 @@ class WithdrawModel extends AbstractModel {
     public function create($uid, $amount) {
         $data = [
             'uid' => $uid,
-            'amount' => $amount * Constants::PRECISION ,
+            'amount' => (int)($amount * Constants::PRECISION),
             'status' => Constants::STATUS_WITHDRAW_IN_REVIEW,
             'created_at' => time(),
         ];

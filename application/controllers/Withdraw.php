@@ -5,7 +5,7 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
-        $amount = (int)$this->getRequest()->getPost('amount');
+        $amount = $this->getRequest()->getPost('amount');
         $receipt = $this->getRequest()->getPost('receipt');
         if (!$receipt) {
             return $this->outputError(Constants::ERR_WITHDRAW_NO_RECEIPT, '请提交收款人');
