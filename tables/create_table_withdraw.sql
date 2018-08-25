@@ -2,7 +2,7 @@ drop table if exists `withdraw`;
 create table `withdraw` (
     `id` bigint(20) unsigned auto_increment comment 'auto incr id',
     `uid` bigint(20) unsigned not null default 0 comment 'user id',
-    `amount` bigint(20) unsigned not null default 0 comment 'withdraw amount, unit 0.001',
+    `amount` bigint(20) unsigned not null default 0 comment 'withdraw amount, unit 0.01',
     `status` tinyint(3) unsigned not null default 0 comment 'status',
     `created_at` int(11) unsigned not null default 0 comment 'create time',
     primary key (`id`),

@@ -23,14 +23,14 @@ class WalletModel extends AbstractModel {
     }
 
     public function reward($uid, $amount) {
-        $amount = $amount * Constants::PRECISION;
+        $amount = (int)($amount * Constants::PRECISION);
         $sql = 'update '.self::TABLE.' set balance=balance+?, income=income+?'.' where uid=?';
         $ret = $this->db->query($sql, [$amount, $amount, $uid]);
         return (bool)$ret;
     }
 
     public function withdraw($uid, $amount) {
-        $amount = $amount * Constants::PRECISION;
+        $amount = (int)($amount * Constants::PRECISION);
         $sql = 'update '.self::TABLE.' set balance=balance-?'
             .' where uid=?';
         $ret = $this->db->query($sql, [$amount, $uid]);
