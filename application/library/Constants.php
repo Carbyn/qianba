@@ -15,11 +15,14 @@ class Constants {
     const ERR_TASK_IN_REVIEW                = 2007;
     const ERR_TASK_UPDATE_FAILED            = 2008;
     const ERR_TASK_CREATE_INFO_INVALID      = 2009;
+    const ERR_TASK_TRIBUTE_INCR_FAILED      = 2010;
 
     const ERR_UPLOADER_FAILED               = 3001;
     const ERR_UPLOADER_NO_IMAGE             = 3002;
 
     const ERR_USER_DATA_EMPTY               = 4001;
+    const ERR_USER_BIND_FAILED              = 4002;
+    const ERR_USER_CODE_INVALID             = 4003;
 
     const ERR_WITHDRAW_NO_RECEIPT           = 5001;
     const ERR_WITHDRAW_UPDATE_RECEIPT_FAILED= 5002;
@@ -41,8 +44,14 @@ class Constants {
     const STATUS_WITHDRAW_APPROVED          = 2;
     const STATUS_WITHDRAW_UNAPPROVED        = 3;
 
+    const TYPE_TRIBUTE_TUDI                 = 1;
+    const TYPE_TRIBUTE_TUSUN                = 2;
+
     const PRECISION = 100;
+    const PERCENT_TUDI = 0.1;
+    const PERCENT_TUSUN = 0.1;
     const PAGESIZE = 20;
+    const CODE_DELTA = 83230210;
 
     const OS_ANDROID = 'android';
     const OS_IOS = 'ios';

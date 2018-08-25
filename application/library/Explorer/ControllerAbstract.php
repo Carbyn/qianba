@@ -15,7 +15,7 @@ class ControllerAbstract extends \Yaf\Controller_Abstract {
         }
         // TODO
         if (isset($_COOKIE['carbyn'])) {
-            $this->uid = 2;
+            $this->uid = 1;
             $userModel = new \UserModel();
             $this->user = $userModel->fetch($this->uid);
             return;

@@ -209,9 +209,47 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
 
         $incomeModel = new IncomeModel();
-        if (!$incomeModel->create($mytask->uid, $mytask->task_id, $task->name.$subtask->name, $subtask->reward)) {
+        if (!$incomeModel->create($mytask->uid, $task->name.$subtask->name, $subtask->reward)) {
             return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '任务添加收入记录失败');
         }
+
+        $tributeModel = new TributeModel();
+        $mUid = $tributeModel->fetchMaster($mytask->uid);
+        if ($mUid) {
+            $mReward = $subtask->reward * Constants::PERCENT_TUDI;
+            if (!$walletModel->reward($mUid, $mReward)) {
+                return $this->outputError(Constants::ERR_TASK_REWARD_FAILED, '奖励师父失败');
+            }
+            if (!$incomeModel->create($mUid, '徒弟进贡', $mReward)) {
+                return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '师父添加收入记录失败');
+            }
+            if (!$tributeModel->incrAmount($mUid, $mytask->uid, $mReward)) {
+                return $this->outputError(Constants::ERR_TASK_TRIBUTE_INCR_FAILED, '进贡师父记录更新失败');
+            }
+            $mmUid = $tributeModel->fetchMaster($mUid);
+            if ($mmUid) {
+                $mmReward = $subtask->reward * Constants::PERCENT_TUSUN;
+                if (!$walletModel->reward($mmUid, $mmReward)) {
+                    return $this->outputError(Constants::ERR_TASK_REWARD_FAILED, '奖励师祖失败');
+                }
+                if (!$incomeModel->create($mmUid, '徒孙进贡', $mmReward)) {
+                    return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '师祖添加收入记录失败');
+                }
+                if (!$tributeModel->fetch($mmUid, $mytask->uid)) {
+                    $userModel = new UserModel();
+                    $user = $userModel->fetch($mytask->uid);
+                    if (!$tributeModel->bind($mmUid, Constants::TYPE_TRIBUTE_TUSUN, $mytask->uid, $user->name, $mmReward)) {
+                        return $this->outputError(Constants::ERR_TASK_TRIBUTE_INCR_FAILED, '进贡师祖记录创建失败');
+                    }
+                    $userModel->incrTusun($mmUid);
+                } else {
+                    if (!$tributeModel->incrAmount($mmUid, $mytask->uid, $mmReward)) {
+                        return $this->outputError(Constants::ERR_TASK_TRIBUTE_INCR_FAILED, '进贡师祖记录更新失败');
+                    }
+                }
+            }
+        }
+
         $this->outputSuccess();
     }
 

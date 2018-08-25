@@ -18,8 +18,11 @@ class LoginModel extends AbstractModel {
         return $id;
     }
 
-    private function getTokenKey($id) {
-        return md5('login_token_'.$id);
+    private function getTokenKey($token) {
+        if (Constants::env() == 'dev') {
+            return md5('dev_login_token_'.$token);
+        }
+        return md5('login_token_'.$token);
     }
 
 }

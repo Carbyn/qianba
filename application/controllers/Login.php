@@ -15,6 +15,7 @@ class LoginController extends \Explorer\ControllerAbstract {
         $walletModel = new WalletModel();
         if (!$user) {
             $id = $userModel->createOpenid($openid);
+            $userModel->genCode($id);
             $user = $userModel->fetch($id);
             $walletModel->create($id);
         }

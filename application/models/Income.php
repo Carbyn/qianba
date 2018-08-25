@@ -19,10 +19,9 @@ class IncomeModel extends AbstractModel {
         return $records;
     }
 
-    public function create($uid, $task_id, $task_desc, $income) {
+    public function create($uid, $task_desc, $income) {
         $data = [
             'uid' => $uid,
-            'task_id' => $task_id,
             'task_desc' => $task_desc,
             'income' => $income * Constants::PRECISION,
             'created_at' => time(),

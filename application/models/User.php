@@ -24,6 +24,11 @@ class UserModel extends AbstractModel {
         return $ret;
     }
 
+    public function fetchCode($code) {
+        $where['code'] = (int)$code;
+        return $this->db->table(self::TABLE)->where($where)->get();
+    }
+
     public function createOpenid($openid) {
         $data['openid'] = $openid;
         $data['register_time'] = time();
@@ -33,6 +38,22 @@ class UserModel extends AbstractModel {
     public function updateProfile($id, $data) {
         $where['id'] = $id;
         $this->db->table(self::TABLE)->where($where)->update($data);
+    }
+
+    public function genCode($id) {
+        $where['id'] = $id;
+        $update['code'] = $id + Constants::CODE_DELTA;
+        return $this->db->table(self::TABLE)->where($where)->update($update);
+    }
+
+    public function incrTudi($id) {
+        $sql = 'update '.self::TABLE.' set tudi_num=tudi_num+1 where id=?';
+        return $this->db->query($sql, [$id]);
+    }
+
+    public function incrTusun($id) {
+        $sql = 'update '.self::TABLE.' set tusun_num=tusun_num+1 where id=?';
+        return $this->db->query($sql, [$id]);
     }
 
 }
