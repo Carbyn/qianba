@@ -53,6 +53,9 @@ class UserController extends \Explorer\ControllerAbstract {
         if (!$master) {
             return $this->outputError(Constants::ERR_USER_CODE_INVALID, '邀请码无效');
         }
+        if ($master->id == $this->uid) {
+            return $this->outputError(Constants::ERR_USER_BIND_FAILED, '不能拜自己为师');
+        }
         if ($master->register_time > $this->user->register_time) {
             return $this->outputError(Constants::ERR_USER_BIND_FAILED, '师父注册时间不能晚于你');
         }
