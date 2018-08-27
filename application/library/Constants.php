@@ -16,6 +16,8 @@ class Constants {
     const ERR_TASK_UPDATE_FAILED            = 2008;
     const ERR_TASK_CREATE_INFO_INVALID      = 2009;
     const ERR_TASK_TRIBUTE_INCR_FAILED      = 2010;
+    const ERR_TASK_TYPE_INVALID             = 2011;
+    const ERR_TASK_SCREENSHOTS_LOST         = 2012;
 
     const ERR_UPLOADER_FAILED               = 3001;
     const ERR_UPLOADER_NO_IMAGE             = 3002;
@@ -46,6 +48,9 @@ class Constants {
 
     const TYPE_TRIBUTE_TUDI                 = 1;
     const TYPE_TRIBUTE_TUSUN                = 2;
+
+    const TYPE_TASK_CPA                     = 1;
+    const TYPE_TASK_MINI                    = 2;
 
     const PRECISION = 100;
     const PERCENT_TUDI = 0.1;

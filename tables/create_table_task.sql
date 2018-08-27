@@ -2,6 +2,7 @@ drop table if exists `task`;
 create table `task` (
     `id` bigint(20) unsigned auto_increment comment 'auto incr id',
     `name` varchar(32) not null default '' comment 'task name',
+    `type` tinyint(3) unsigned not null default 0 comment 'task type, 1:cpa,2:minigame',
     `os` tinyint(3) unsigned not null default 0 comment '0: android, 1: ios',
     `parent_id` bigint(20) unsigned not null default 0 comment 'parent task id',
     `subtasks` tinyint(3) unsigned not null default 0 comment 'subtasks num',

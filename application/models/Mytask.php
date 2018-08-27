@@ -8,9 +8,12 @@ class MytaskModel extends AbstractModel {
         return $this->db->table(self::TABLE)->where($where)->get();
     }
 
-    public function fetchTasks($uid) {
+    public function fetchTasks($uid, $type) {
         $where['uid'] = $uid;
         $where['is_subtask'] = 0;
+        if ($type == Constants::TYPE_TASK_MINI) {
+            $where['date'] = date('Ymd');
+        }
         $tasks = $this->db->table(self::TABLE)->where($where)->getAll();
         $ret = [];
         foreach($tasks as $task) {
@@ -43,9 +46,12 @@ class MytaskModel extends AbstractModel {
         return $ret;
     }
 
-    public function fetchTask($uid, $task_id) {
+    public function fetchTask($uid, $task_id, $date = 0) {
         $where['uid'] = $uid;
         $where['task_id'] = $task_id;
+        if ($date > 0) {
+            $where['date'] = $date;
+        }
         $task = $this->db->table(self::TABLE)->where($where)->get();
         return $task;
     }
@@ -53,6 +59,7 @@ class MytaskModel extends AbstractModel {
     public function completeSubtask($uid, $task_id, $screenshots) {
         $data = [
             'uid' => $uid,
+            'date' => date('Ymd'),
             'task_id' => $task_id,
             'is_subtask' => 1,
             'screenshots' => $screenshots,
@@ -64,7 +71,8 @@ class MytaskModel extends AbstractModel {
 
     public function recompleteSubtask($uid, $task_id, $screenshots) {
         $status = Constants::STATUS_MYTASK_IN_REVIEW;
-        $update = compact('screenshots', 'status');
+        $date = date('Ymd');
+        $update = compact('date', 'screenshots', 'status');
         $where = compact('uid', 'task_id');
         return $this->db->table(self::TABLE)->where($where)->update($update);
     }
@@ -91,9 +99,23 @@ class MytaskModel extends AbstractModel {
         }
         $data = [
             'uid' => $uid,
+            'date' => date('Ymd'),
             'task_id' => $task_id,
             'is_subtask' => 0,
             'completed_num' => 1,
+            'created_at' => time(),
+        ];
+        return $this->db->table(self::TABLE)->insert($data);
+    }
+
+    public function completeTask($uid, $task_id) {
+        $data = [
+            'uid' => $uid,
+            'date' => date('Ymd'),
+            'task_id' => $task_id,
+            'is_subtask' => 0,
+            'completed_num' => 1,
+            'status' => Constants::STATUS_MYTASK_APPROVED,
             'created_at' => time(),
         ];
         return $this->db->table(self::TABLE)->insert($data);

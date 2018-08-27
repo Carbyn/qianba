@@ -6,26 +6,26 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
 
-        $taskModel = new TaskModel();
-        $tasks = $taskModel->fetchTasks(true, $this->os);
-        $mytaskModel = new MytaskModel();
-        $mytasks = $mytaskModel->fetchTasks($this->uid);
+        $type = (int)$this->getRequest()->getQuery('type');
+        if ($type != Constants::TYPE_TASK_CPA && $type != Constants::TYPE_TASK_MINI) {
+            return $this->outputError(Constants::ERR_TASK_TYPE_INVALID, '类型无效');
+        }
 
-        $today = [];
-        foreach($tasks as $task) {
+        $taskModel = new TaskModel();
+        $tasks = $taskModel->fetchTasks($type, $this->os);
+        $mytaskModel = new MytaskModel();
+        $mytasks = $mytaskModel->fetchTasks($this->uid, $type);
+
+        foreach($tasks as &$task) {
             if (isset($mytasks[$task['id']])) {
-                if ($mytasks[$task['id']]['status'] == Constants::STATUS_MYTASK_APPROVED) {
-                    continue;
-                } else {
-                    $task['completed_num'] = $mytasks[$task['id']]['completed_num'];
-                }
+                $task['completed_num'] = $mytasks[$task['id']]['completed_num'];
             } else {
                 $task['completed_num'] = 0;
             }
-            $today[] = $task;
         }
-        $today = array_values($today);
-        $this->outputSuccess(compact('today'));
+        $today = array_values($tasks);
+        $duration = 60;
+        $this->outputSuccess(compact('today', 'duration'));
     }
 
     public function historyAction() {
@@ -88,23 +88,44 @@ class TaskController extends \Explorer\ControllerAbstract {
         $screenshots = $this->getRequest()->getPost('screenshots');
         $taskModel = new TaskModel();
         $task = $taskModel->fetch($task_id);
-        if (!$task || $task->parent_id == 0) {
+        if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        $mytaskModel = new MytaskModel();
-        $subtask = $mytaskModel->fetchTask($this->uid, $task_id);
-        if ($subtask) {
-            switch($subtask->status) {
-            case Constants::STATUS_MYTASK_IN_REVIEW:
-            case Constants::STATUS_MYTASK_APPROVED:
-                return $this->outputError(Constants::ERR_TASK_IN_REVIEW, '任务已提交');
-            case Constants::STATUS_MYTASK_UNAPPROVED:
-                $mytaskModel->recompleteSubtask($this->uid, $task_id, $screenshots);
+        if ($task->type == Constants::TYPE_TASK_CPA) {
+            if ($task->parent_id == 0) {
+                return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
             }
-        } else {
-            $mytaskModel->completeSubtask($this->uid, $task_id, $screenshots);
+            if (!$screenshots) {
+                return $this->outputError(Constants::ERR_TASK_SCREENSHOTS_LOST, '请提交截图');
+            }
         }
-        $this->outputSuccess();
+
+        $mytaskModel = new MytaskModel();
+        switch($task->type) {
+        case Constants::TYPE_TASK_CPA:
+            $subtask = $mytaskModel->fetchTask($this->uid, $task_id);
+            if ($subtask) {
+                switch($subtask->status) {
+                case Constants::STATUS_MYTASK_IN_REVIEW:
+                case Constants::STATUS_MYTASK_APPROVED:
+                    return $this->outputError(Constants::ERR_TASK_IN_REVIEW, '任务已提交');
+                case Constants::STATUS_MYTASK_UNAPPROVED:
+                    $mytaskModel->recompleteSubtask($this->uid, $task_id, $screenshots);
+                }
+            } else {
+                $mytaskModel->completeSubtask($this->uid, $task_id, $screenshots);
+            }
+            return $this->outputSuccess();
+        case Constants::TYPE_TASK_MINI:
+            $mytask = $mytaskModel->fetchTask($this->uid, $task_id, date('Ymd'));
+            if ($mytask) {
+                return $this->outputError(Constants::ERR_TASK_IN_REVIEW, '任务已完成');
+            }
+            if (!$mytaskModel->completeTask($this->uid, $task_id)) {
+                return $this->outputError(Constants::ERR_TASK_REWARD_FAILED, '任务奖励失败');
+            }
+            return $this->rewardTask($this->uid, $task->reward, $task->name);
+        }
     }
 
     public function createTaskAction() {
@@ -112,15 +133,18 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
         $name = $this->getRequest()->getPost('name');
+        $type = $this->getRequest()->getPost('type');
         $os = $this->getRequest()->getPost('os');
+        $task_desc = $this->getRequest()->getPost('task_desc');
         $reward = $this->getRequest()->getPost('reward');
         $images = $this->getRequest()->getPost('images');
+        $demos = $this->getRequest()->getPost('demos');
 
-        if (!$name || !$os || !$reward || !$images) {
+        if (!$name || !is_numeric($type) || !$os || !$reward || !$images) {
             return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
         }
         $taskModel = new TaskModel();
-        $id = $taskModel->createTask($name, $os, $reward, $images);
+        $id = $taskModel->createTask($name, $type, $os, $task_desc, $reward, $images, $demos);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
@@ -203,47 +227,51 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_TASK_INCR_TASK_FAILED, '更新父任务失败');
         }
 
+        return $this->rewardTask($mytask->uid, $subtask->reward, $task->name.$subtask->name);
+    }
+
+    private function rewardTask($uid, $reward, $incomeDesc) {
         $walletModel = new WalletModel();
-        if (!$walletModel->reward($mytask->uid, $subtask->reward)) {
+        if (!$walletModel->reward($uid, $reward)) {
             return $this->outputError(Constants::ERR_TASK_REWARD_FAILED, '任务奖励失败');
         }
 
         $incomeModel = new IncomeModel();
-        if (!$incomeModel->create($mytask->uid, $task->name.$subtask->name, $subtask->reward)) {
+        if (!$incomeModel->create($uid, $incomeDesc, $reward)) {
             return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '任务添加收入记录失败');
         }
 
         $tributeModel = new TributeModel();
-        $mUid = $tributeModel->fetchMaster($mytask->uid);
+        $mUid = $tributeModel->fetchMaster($uid);
         if ($mUid) {
-            $mReward = $subtask->reward * Constants::PERCENT_TUDI;
+            $mReward = $reward * Constants::PERCENT_TUDI;
             if (!$walletModel->reward($mUid, $mReward)) {
                 return $this->outputError(Constants::ERR_TASK_REWARD_FAILED, '奖励师父失败');
             }
             if (!$incomeModel->create($mUid, '徒弟进贡', $mReward)) {
                 return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '师父添加收入记录失败');
             }
-            if (!$tributeModel->incrAmount($mUid, $mytask->uid, $mReward)) {
+            if (!$tributeModel->incrAmount($mUid, $uid, $mReward)) {
                 return $this->outputError(Constants::ERR_TASK_TRIBUTE_INCR_FAILED, '进贡师父记录更新失败');
             }
             $mmUid = $tributeModel->fetchMaster($mUid);
             if ($mmUid) {
-                $mmReward = $subtask->reward * Constants::PERCENT_TUSUN;
+                $mmReward = $reward * Constants::PERCENT_TUSUN;
                 if (!$walletModel->reward($mmUid, $mmReward)) {
                     return $this->outputError(Constants::ERR_TASK_REWARD_FAILED, '奖励师祖失败');
                 }
                 if (!$incomeModel->create($mmUid, '徒孙进贡', $mmReward)) {
                     return $this->outputError(Constants::ERR_TASK_INCOME_CREATE_FAILED, '师祖添加收入记录失败');
                 }
-                if (!$tributeModel->fetch($mmUid, $mytask->uid)) {
+                if (!$tributeModel->fetch($mmUid, $uid)) {
                     $userModel = new UserModel();
-                    $user = $userModel->fetch($mytask->uid);
-                    if (!$tributeModel->bind($mmUid, Constants::TYPE_TRIBUTE_TUSUN, $mytask->uid, $user->name, $mmReward)) {
+                    $user = $userModel->fetch($uid);
+                    if (!$tributeModel->bind($mmUid, Constants::TYPE_TRIBUTE_TUSUN, $uid, $user->name, $mmReward)) {
                         return $this->outputError(Constants::ERR_TASK_TRIBUTE_INCR_FAILED, '进贡师祖记录创建失败');
                     }
                     $userModel->incrTusun($mmUid);
                 } else {
-                    if (!$tributeModel->incrAmount($mmUid, $mytask->uid, $mmReward)) {
+                    if (!$tributeModel->incrAmount($mmUid, $uid, $mmReward)) {
                         return $this->outputError(Constants::ERR_TASK_TRIBUTE_INCR_FAILED, '进贡师祖记录更新失败');
                     }
                 }
