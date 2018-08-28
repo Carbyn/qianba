@@ -6,7 +6,7 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
 
-        $type = (int)$this->getRequest()->getQuery('type');
+        $type = (int)$this->getRequest()->getQuery('type', Constants::TYPE_TASK_CPA);
         if ($type != Constants::TYPE_TASK_CPA && $type != Constants::TYPE_TASK_MINI) {
             return $this->outputError(Constants::ERR_TASK_TYPE_INVALID, '类型无效');
         }
