@@ -6,9 +6,7 @@ class WithdrawModel extends AbstractModel {
     public function fetch($id) {
         $where['id'] = $id;
         $record = $this->db->table(self::TABLE)->where($where)->get();
-        if ($record) {
-            $record->amount = $record->amount > 0 ? sprintf('%.2f', $record->amount/Constants::PRECISION) : 0;
-        }
+        $record = $this->format($record);
         return $record;
     }
 
@@ -22,8 +20,20 @@ class WithdrawModel extends AbstractModel {
             ->getAll();
 
         foreach($records as &$row) {
-            $row->created_at = date('Y-m-d H:i:s', $row->created_at);
-            $row->amount = $row->amount > 0 ? sprintf('%.2f', $row->amount/Constants::PRECISION) : 0;
+            $row = $this->format($row);
+        }
+        return $records;
+    }
+
+    public function latest($limit) {
+        $where['status'] = Constants::STATUS_WITHDRAW_APPROVED;
+        $records = $this->db->table(self::TABLE)->where($where)
+            ->orderBy('id', 'DESC')
+            ->limit(0, $limit)
+            ->getAll();
+
+        foreach($records as &$row) {
+            $row = $this->format($row);
         }
         return $records;
     }
@@ -46,6 +56,15 @@ class WithdrawModel extends AbstractModel {
             $update['status'] = Constants::STATUS_WITHDRAW_UNAPPROVED;
         }
         return $this->db->table(self::TABLE)->where($where)->update($update);
+    }
+
+    private function format($row) {
+        if (!$row) {
+            return $row;
+        }
+        $row->created_at = date('Y-m-d H:i:s', $row->created_at);
+        $row->amount = $row->amount > 0 ? sprintf('%.2f', $row->amount/Constants::PRECISION) : 0;
+        return $row;
     }
 
 }

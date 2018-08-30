@@ -44,6 +44,27 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('records', 'is_end'));
     }
 
+    public function latestAction() {
+        if (!$this->uid) {
+            return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
+        }
+        $withdrawModel = new WithdrawModel();
+        $records = $withdrawModel->latest(10);
+        if ($records) {
+            $uids = [];
+            foreach($records as $r) {
+                $uids[] = $r->uid;
+            }
+            $userModel = new UserModel();
+            $users = $userModel->fetchAll($uids);
+            foreach($records as &$r) {
+                $r = (array)$r;
+                $r['name'] = $users[$r['uid']]->name;
+            }
+        }
+        $this->outputSuccess(compact('records'));
+    }
+
     public function reviewAction() {
         if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
