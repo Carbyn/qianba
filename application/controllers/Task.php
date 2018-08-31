@@ -156,6 +156,7 @@ class TaskController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
         }
         $name = $this->getRequest()->getPost('name');
+        $type = $this->getRequest()->getPost('type');
         $parent_id = $this->getRequest()->getPost('parent_id');
         $task_desc = $this->getRequest()->getPost('task_desc');
         $url = $this->getRequest()->getPost('url');
@@ -173,7 +174,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        $id = $taskModel->createSubtask($name, $parent_id, $task_desc, $url, $code, $reward, $app_reward, $images, $demos);
+        $id = $taskModel->createSubtask($name, $type, $parent_id, $task_desc, $url, $code, $reward, $app_reward, $images, $demos);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
