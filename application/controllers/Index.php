@@ -3,6 +3,7 @@ class IndexController extends \Explorer\ControllerAbstract{
 
 	public function indexAction() {
         $code = $this->getRequest()->getQuery('code');
+        $truthCode = '';
         if ($code) {
             $userModel = new UserModel();
             $user = $userModel->fetchCode($code);
@@ -10,9 +11,10 @@ class IndexController extends \Explorer\ControllerAbstract{
                 $clientIP = \Explorer\IP::getClientIP();
                 $tributeModel = new TributeModel();
                 $tributeModel->storeMaster($clientIP, $user->id);
-                $this->getView()->assign('code', $code);
+                $truthCode = $code;
             }
         }
+        $this->getView()->assign('code', $truthCode);
         $this->getView()->display('index/index.phtml');
 	}
 
