@@ -9,7 +9,7 @@ class AngoController extends \Explorer\ControllerAbstract {
         if ($ver === self::VERSION_IN_REVIEW) {
             $aha = true;
         }
-        $notice = '“小猪钱吧”是一个能帮你用手机赚零花钱的小助手，按照引导完成任务，得到奖励即可提现。';
+        $notice = '“小猪钱吧”是一个能帮你用手机赚零花钱的小助手，按照引导完成任务，得到奖励即可提现。邀请好友，永久提成10%哦~';
         $new = 'wx69410165e46aab0b';
         $new = '';
         return $this->outputSuccess(compact('aha', 'notice', 'new'));
