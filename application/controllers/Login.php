@@ -18,6 +18,7 @@ class LoginController extends \Explorer\ControllerAbstract {
             $userModel->genCode($id);
             $user = $userModel->fetch($id);
             $walletModel->create($id);
+            $this->bindMaster($user);
         }
         $token = \Explorer\Utils::generateToken(32);
         $loginModel = new LoginModel();
@@ -40,6 +41,41 @@ class LoginController extends \Explorer\ControllerAbstract {
         $walletModel = new WalletModel();
         $wallet = $walletModel->fetch($id);
         $this->outputSuccess(compact('user', 'wallet'));
+    }
+
+    private function bindMaster($user) {
+        $clientIP = \Explorer\IP::getClientIP();
+        $tributeModel = new TributeModel();
+        $mUid = $tributeModel->getMaster($clientIP);
+        if (!$mUid) {
+            return false;
+        }
+        if ($mUid == $user->id) {
+            return false;
+        }
+        $userModel = new UserModel();
+        $master = $userModel->fetch($mUid);
+        if (!$master) {
+            return false;
+        }
+        if ($master->register_time > $user->register_time) {
+            return false;
+        }
+        if ($tributeModel->fetchMaster($user->id)) {
+            return false;
+        }
+        if (!$tributeModel->bind($mUid, Constants::TYPE_TRIBUTE_TUDI, $user->id, $user->name, 0)) {
+            return false;
+        }
+        $userModel->incrTudi($mUid);
+
+        $mmUid = $tributeModel->fetchMaster($mUid);
+        if (!$mmUid) {
+            return true;
+        }
+        $tributeModel->bind($mmUid, Constants::TYPE_TRIBUTE_TUSUN, $user->id, $user->name, 0);
+        $userModel->incrTusun($mmUid);
+        return true;
     }
 
 }

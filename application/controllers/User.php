@@ -19,6 +19,10 @@ class UserController extends \Explorer\ControllerAbstract {
         }
         $userModel = new UserModel();
         $userModel->updateProfile($this->uid, $data);
+        if ($name) {
+            $tributeModel = new TributeModel();
+            $tributeModel->updateOname($this->uid, $name);
+        }
         $this->outputSuccess();
     }
 
@@ -36,7 +40,8 @@ class UserController extends \Explorer\ControllerAbstract {
             $userModel = new UserModel();
             $master = $userModel->fetch($masterUid);
         }
-        $this->outputSuccess(compact('user', 'wallet', 'master'));
+        $invite = 'https://qianba.1024.pm';
+        $this->outputSuccess(compact('user', 'wallet', 'master', 'invite'));
     }
 
     public function codeAction() {
@@ -70,9 +75,8 @@ class UserController extends \Explorer\ControllerAbstract {
 
         $mmUid = $tributeModel->fetchMaster($master->id);
         if ($mmUid) {
-            $mm = $userModel->fetch($mmUid);
-            $tributeModel->bind($mm->id, Constants::TYPE_TRIBUTE_TUSUN, $this->uid, $this->user->name, 0);
-            $userModel->incrTusun($mm->id);
+            $tributeModel->bind($mmUid, Constants::TYPE_TRIBUTE_TUSUN, $this->uid, $this->user->name, 0);
+            $userModel->incrTusun($mmUid);
         }
 
         $this->outputSuccess(compact('master'));
