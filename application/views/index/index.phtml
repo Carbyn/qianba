@@ -39,6 +39,12 @@
     		font-size: 16px;
     		line-height: 1.6;
     	}
+        .code {
+            display: block;
+            text-align: center;
+            font-size: 24px;
+            color: orange;
+        }
     	.share {
     		display: block;
     		width: 100%;
@@ -70,7 +76,7 @@
 		“小猪钱吧”是一个能帮你用手机赚零花钱的小助手，按照引导完成任务，得到奖励即可提现。
 	</div>
     <?php if ($code) {?>
-    <span>邀请码: <?php echo $code;?></span>
+    <span class="code">邀请码: <?php echo $code;?></span>
     <?php }?>
 
 	<img class="share" src="https://qianba.1024.pm/uploads/qianba.jpeg"></img>
