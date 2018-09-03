@@ -91,6 +91,9 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
+        if ($task->inventory <= 0) {
+            return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务已下线');
+        }
         if ($task->type == Constants::TYPE_TASK_CPA) {
             if ($task->parent_id == 0) {
                 return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
@@ -114,6 +117,7 @@ class TaskController extends \Explorer\ControllerAbstract {
                 }
             } else {
                 $mytaskModel->completeSubtask($this->uid, $task_id, $screenshots);
+                $taskModel->decrInventory($task->parent_id);
             }
             return $this->outputSuccess();
         case Constants::TYPE_TASK_MINI:
@@ -124,6 +128,7 @@ class TaskController extends \Explorer\ControllerAbstract {
             if (!$mytaskModel->completeTask($this->uid, $task_id)) {
                 return $this->outputError(Constants::ERR_TASK_REWARD_FAILED, '任务奖励失败');
             }
+            $taskModel->decrInventory($task_id);
             return $this->rewardTask($this->uid, $task->reward, $task->name);
         }
     }
@@ -140,12 +145,13 @@ class TaskController extends \Explorer\ControllerAbstract {
         $reward = $this->getRequest()->getPost('reward');
         $images = $this->getRequest()->getPost('images');
         $demos = $this->getRequest()->getPost('demos');
+        $inventory = (int)$this->getRequest()->getPost('inventory');
 
         if (!$name || !is_numeric($type) || !$os || !$reward || !$images) {
             return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
         }
         $taskModel = new TaskModel();
-        $id = $taskModel->createTask($name, $type, $os, $task_desc, $url, $reward, $images, $demos);
+        $id = $taskModel->createTask($name, $type, $os, $task_desc, $url, $reward, $images, $demos, $inventory);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }

@@ -13,6 +13,7 @@ create table `task` (
     `app_reward` bigint(20) unsigned not null default 0 comment 'task app reward, unit 0.01',
     `images` varchar(1024) not null default '' comment 'task desc images, seperated by |',
     `demos` varchar(1024) not null default '' comment 'task upload image demos, seperated by |',
+    `inventory` int(11) unsigned not null default 0 comment 'task inventory',
     `status` tinyint(3) unsigned not null default 0 comment 'task status',
     primary key (`id`),
     key `parent` (`parent_id`)
