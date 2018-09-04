@@ -16,14 +16,19 @@ class TaskController extends \Explorer\ControllerAbstract {
         $mytaskModel = new MytaskModel();
         $mytasks = $mytaskModel->fetchTasks($this->uid, $type);
 
+        $today = [];
         foreach($tasks as &$task) {
             if (isset($mytasks[$task['id']])) {
                 $task['completed_num'] = $mytasks[$task['id']]['completed_num'];
             } else {
                 $task['completed_num'] = 0;
             }
+            if ($type == Constants::TYPE_TASK_CPA && $task['completed_num'] == $task['subtasks']) {
+                continue;
+            }
+            $today[] = $task;
         }
-        $today = array_values($tasks);
+        $today = array_values($today);
         $duration = 60;
         $this->outputSuccess(compact('today', 'duration'));
     }
@@ -91,12 +96,13 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        if ($task->inventory <= 0) {
-            return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务已下线');
-        }
         if ($task->type == Constants::TYPE_TASK_CPA) {
             if ($task->parent_id == 0) {
                 return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
+            }
+            $parentTask = $taskModel->fetch($task->parent_id);
+            if ($parentTask->inventory <= 0) {
+                return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务已下线');
             }
             if (!$screenshots) {
                 return $this->outputError(Constants::ERR_TASK_SCREENSHOTS_LOST, '请提交截图');

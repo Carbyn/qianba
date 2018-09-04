@@ -104,6 +104,7 @@ class MytaskModel extends AbstractModel {
             'is_subtask' => 0,
             'completed_num' => 1,
             'created_at' => time(),
+            'status' => $subtasks == 1 ? Constants::STATUS_MYTASK_APPROVED : 0,
         ];
         return $this->db->table(self::TABLE)->insert($data);
     }
