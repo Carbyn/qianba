@@ -28,6 +28,9 @@ class TaskController extends \Explorer\ControllerAbstract {
             }
             $today[] = $task;
         }
+        if ($type == Constants::TYPE_TASK_MINI && $this->os == Constants::OS_ANDROID) {
+            array_shift($today);
+        }
         $today = array_values($today);
         $duration = 60;
         $this->outputSuccess(compact('today', 'duration'));
@@ -90,6 +93,10 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
 
         $task_id = $this->getRequest()->getPost('task_id');
+        // todo
+        if ($task_id == 0) {
+            return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
+        }
         $screenshots = $this->getRequest()->getPost('screenshots');
         $taskModel = new TaskModel();
         $task = $taskModel->fetch($task_id);
@@ -153,7 +160,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         $demos = $this->getRequest()->getPost('demos');
         $inventory = (int)$this->getRequest()->getPost('inventory');
 
-        if (!$name || !is_numeric($type) || !$os || !$reward || !$images) {
+        if (!$name || !is_numeric($type) || !$os || !is_numeric($reward) || !$images) {
             return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
         }
         $taskModel = new TaskModel();
