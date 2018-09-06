@@ -44,16 +44,29 @@ class AngoController extends \Explorer\ControllerAbstract {
             "bd" => "商务合作",
             "new_income" => "新入账",
         ];
-        $navlist = [
-            [
-                'title' => '试玩小游戏',
-                'type' => Constants::TYPE_TASK_MINI,
-            ],
-            [
-                'title' => '下载APP',
-                'type' => Constants::TYPE_TASK_CPA,
-            ],
-        ];
+        if ($this->os == Constants::OS_ANDROID) {
+            $navlist = [
+                [
+                    'title' => '试玩小游戏',
+                    'type' => Constants::TYPE_TASK_MINI,
+                ],
+                [
+                    'title' => '下载APP',
+                    'type' => Constants::TYPE_TASK_CPA,
+                ],
+            ];
+        } else {
+            $navlist = [
+                [
+                    'title' => '试玩小游戏',
+                    'type' => Constants::TYPE_TASK_MINI,
+                ],
+                [
+                    'title' => '微信加好友',
+                    'type' => Constants::TYPE_TASK_CPA,
+                ],
+            ];
+        }
 
         return $this->outputSuccess(compact('aha', 'new', 'navlist', 'texts'));
     }
