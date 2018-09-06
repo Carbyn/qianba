@@ -60,7 +60,7 @@ class WithdrawController extends \Explorer\ControllerAbstract {
             foreach($records as &$r) {
                 $r = (array)$r;
                 $r['name'] = $users[$r['uid']]->name;
-                $r['status'] = trim($r['name']).'刚刚提现成功￥'.$r['amount'];
+                $r['status'] = trim($r['name']).' 刚刚提现成功￥'.$r['amount'];
             }
         }
         $this->outputSuccess(compact('records'));
