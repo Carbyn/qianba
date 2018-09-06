@@ -61,10 +61,6 @@ class AngoController extends \Explorer\ControllerAbstract {
                     'title' => '试玩小游戏',
                     'type' => Constants::TYPE_TASK_MINI,
                 ],
-                [
-                    'title' => '微信加好友',
-                    'type' => Constants::TYPE_TASK_CPA,
-                ],
             ];
         }
 
