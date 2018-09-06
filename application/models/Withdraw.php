@@ -64,6 +64,19 @@ class WithdrawModel extends AbstractModel {
         }
         $row->created_at = date('Y-m-d H:i:s', $row->created_at);
         $row->amount = $row->amount > 0 ? sprintf('%.2f', $row->amount/Constants::PRECISION) : 0;
+        switch($row->status) {
+            case Constants::STATUS_WITHDRAW_IN_REVIEW:
+                $row->status = '审核中';
+                break;
+            case Constants::STATUS_WITHDRAW_APPROVED:
+                $row->status = '提现成功';
+                break;
+            case Constants::STATUS_WITHDRAW_UNAPPROVED:
+                $row->status = '审核未通过';
+                break;
+            default:
+                $row->status = '审核未通过';
+        }
         return $row;
     }
 

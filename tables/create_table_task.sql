@@ -7,6 +7,7 @@ create table `task` (
     `parent_id` bigint(20) unsigned not null default 0 comment 'parent task id',
     `subtasks` tinyint(3) unsigned not null default 0 comment 'subtasks num',
     `task_desc` varchar(128) not null default '' comment 'task desc',
+    `buttons` varchar(10240) not null default '' comment 'buttons json',
     `url` varchar(1024) not null default '' comment 'task download or detail url',
     `code` varchar(32) not null default '' comment 'task official invitation code',
     `reward` bigint(20) unsigned not null default 0 comment 'task reward, unit 0.01',

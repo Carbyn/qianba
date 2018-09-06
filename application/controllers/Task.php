@@ -26,6 +26,25 @@ class TaskController extends \Explorer\ControllerAbstract {
             if ($type == Constants::TYPE_TASK_CPA && $task['completed_num'] == $task['subtasks']) {
                 continue;
             }
+            if ($type == Constants::TYPE_TASK_CPA) {
+                $task['type'] = 'detail';
+                if ($task['completed_num'] == 0) {
+                    $task['button_text'] = '去赚钱';
+                } else if ($task['completed_num'] < $task['subtasks']) {
+                    $task['button_text'] = $task['completed_num'].'/'.$task['subtasks'];
+                } else {
+                }
+            } else {
+                if ($task['url']) {
+                    $task['type'] = 'navigate';
+                } else {
+                    $task['type'] = 'preview';
+                }
+                if ($task['reward'] == 0) {
+                    $task['completed_num'] = 1;
+                }
+                $task['button_text'] = $task['subtasks'] == $task['completed_num'] ? '再玩一次' : '试玩赚钱￥'.$task['reward'];
+            }
             $today[] = $task;
         }
         if ($type == Constants::TYPE_TASK_MINI && $this->os == Constants::OS_ANDROID) {
@@ -93,10 +112,6 @@ class TaskController extends \Explorer\ControllerAbstract {
         }
 
         $task_id = $this->getRequest()->getPost('task_id');
-        // todo
-        if ($task_id == 0) {
-            return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
-        }
         $screenshots = $this->getRequest()->getPost('screenshots');
         $taskModel = new TaskModel();
         $task = $taskModel->fetch($task_id);
@@ -113,6 +128,10 @@ class TaskController extends \Explorer\ControllerAbstract {
             }
             if (!$screenshots) {
                 return $this->outputError(Constants::ERR_TASK_SCREENSHOTS_LOST, '请提交截图');
+            }
+        } else {
+            if ($task->reward == 0) {
+                return $this->outputSuccess();
             }
         }
 
@@ -179,6 +198,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         $type = $this->getRequest()->getPost('type');
         $parent_id = $this->getRequest()->getPost('parent_id');
         $task_desc = $this->getRequest()->getPost('task_desc');
+        $buttons = $this->getRequest()->getPost('buttons');
         $url = $this->getRequest()->getPost('url');
         $code = $this->getRequest()->getPost('code');
         $reward = $this->getRequest()->getPost('reward');
@@ -194,7 +214,7 @@ class TaskController extends \Explorer\ControllerAbstract {
         if (!$task) {
             return $this->outputError(Constants::ERR_TASK_NOT_EXISTS, '任务不存在');
         }
-        $id = $taskModel->createSubtask($name, $type, $parent_id, $task_desc, $url, $code, $reward, $app_reward, $images, $demos);
+        $id = $taskModel->createSubtask($name, $type, $parent_id, $task_desc, $buttons, $url, $code, $reward, $app_reward, $images, $demos);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
