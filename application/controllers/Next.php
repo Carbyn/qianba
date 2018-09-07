@@ -34,19 +34,23 @@ class NextController extends \Explorer\ControllerAbstract {
         $banner = $recommend = $try = [];
         foreach($bannerIds as $id) {
             if (isset($tasks[$id])) {
+                $tasks[$id]['completed_num'] = 0;
                 $banner[] = $tasks[$id];
             }
         }
         foreach($recommendIds as $id) {
             if (isset($tasks[$id])) {
+                $tasks[$id]['completed_num'] = 0;
                 $recommend[] = $tasks[$id];
             }
         }
         foreach($tryIds as $id) {
             if (isset($tasks[$id])) {
+                $tasks[$id]['completed_num'] = 0;
                 if ($tasks[$id]['reward'] == 0) {
                     $tasks[$id]['button_text'] = '马上玩';
                 } else if (isset($mytasks[$id])) {
+                    $tasks[$id]['completed_num'] = 1;
                     $tasks[$id]['button_text'] = '马上玩';
                 } else {
                     $tasks[$id]['button_text'] = '试玩￥'.$tasks[$id]['reward'];
