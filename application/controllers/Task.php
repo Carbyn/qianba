@@ -320,7 +320,7 @@ class TaskController extends \Explorer\ControllerAbstract {
             }
         }
 
-        $this->outputSuccess();
+        $this->outputSuccess(['button_text' => '马上玩']);
     }
 
 }
