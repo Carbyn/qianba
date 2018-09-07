@@ -68,6 +68,7 @@ class TaskController extends \Explorer\ControllerAbstract {
             $taskModel = new TaskModel();
             $history = $taskModel->batchFetch($task_ids);
         }
+        $history = array_values($history);
         $this->outputSuccess(compact('history'));
     }
 

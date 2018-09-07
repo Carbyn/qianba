@@ -78,11 +78,13 @@ class TaskModel extends AbstractModel {
 
     public function batchFetch($ids) {
         $tasks = $this->db->table(self::TABLE)->in('id', $ids)->getAll();
-        foreach($tasks as &$task) {
+        $ret = [];
+        foreach($tasks as $task) {
             $task->reward = $task->reward > 0 ? sprintf('%.2f', $task->reward/Constants::PRECISION) : 0;
             $task->app_reward = $task->app_reward > 0 ? sprintf('%.2f', $task->app_reward/Constants::PRECISION) : 0;
+            $ret[$task->id] = (array)$task;
         }
-        return $tasks;
+        return $ret;
     }
 
     public function update($id, $online) {
