@@ -16,7 +16,7 @@ class AngoController extends \Explorer\ControllerAbstract {
             "appname" => "小猪钱吧",
             "notice" => "“小猪钱吧”是一个能帮你用手机赚零花钱的小助手，按照引导完成任务，得到奖励即可提现。邀请好友，永久提成10%哦~",
             'share' => [
-                "title" => '有人@你，你的好友又在"小猪钱吧"里偷偷赚钱了！',
+                "title" => '有人@你，发现一个让你玩到停不下来的小程序!',
                 'path' => '/pages/xiaozhu',
                 "imageUrl" => "https://qianba.1024.pm/uploads/logo.png",
             ],
