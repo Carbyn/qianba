@@ -59,6 +59,8 @@ class NextController extends \Explorer\ControllerAbstract {
             }
         }
 
+        shuffle($banner);
+
         $games = compact('banner', 'recommend', 'try');
 
         $this->outputSuccess(compact('titles', 'duration', 'games'));
