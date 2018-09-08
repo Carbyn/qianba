@@ -16,7 +16,7 @@ class NextController extends \Explorer\ControllerAbstract {
 
         $bannerIds = [75, 68, 40];
         $recommendIds = [52, 67, 51, 61, 35, 50, 59, 69, 64, 63, 48, 39];
-        $tryIds = [31, 32, 33, 34, 36, 37, 38, 46, 47, 49, 60, 62, 65, 66, 70, 71, 72, 73, 74, 76, 77];
+        $tryIds = [31, 32, 33, 34, 36, 37, 38, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
 
         $taskModel = new TaskModel();
         $tasks = $taskModel->batchFetch(array_merge($bannerIds, $recommendIds, $tryIds));
