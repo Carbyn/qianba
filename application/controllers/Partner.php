@@ -2,7 +2,7 @@
 class PartnerController extends \Explorer\ControllerAbstract {
 
     public function calcAction() {
-        $version_in_review = '1.0.13';
+        $version_in_review = '1.0.0';
         $version = $this->getRequest()->getQuery('version');
         $aha = false;
         $jump = [
