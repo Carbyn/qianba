@@ -9,7 +9,7 @@ class PartnerController extends \Explorer\ControllerAbstract {
             [
                 'logo' => 'https://qianba.1024.pm/static/logo.png',
                 'url' => 'wxbb7ad0ec88d9efb4',
-                'image' => 'https://qianba.1024.pm/static/qianba.jpeg',
+                'image' => 'https://qianba.1024.pm/static/qianba.png',
                 'title' => '小猪钱吧',
                 'desc' => '一个让你玩到停不下来的小程序',
             ],
@@ -28,7 +28,7 @@ class PartnerController extends \Explorer\ControllerAbstract {
             [
                 'logo' => 'https://qianba.1024.pm/static/logo.png',
                 'url' => 'wxbb7ad0ec88d9efb4',
-                'image' => 'https://qianba.1024.pm/static/qianba.jpeg',
+                'image' => 'https://qianba.1024.pm/static/qianba.png',
                 'title' => '小猪钱吧',
                 'desc' => '一个让你玩到停不下来的小程序',
             ],
