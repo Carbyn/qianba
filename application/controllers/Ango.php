@@ -18,7 +18,7 @@ class AngoController extends \Explorer\ControllerAbstract {
             'share' => [
                 "title" => '有人@你，发现一个让你玩到停不下来的小程序!',
                 'path' => '/pages/xiaozhu',
-                "imageUrl" => "https://qianba.1024.pm/uploads/logo.png",
+                "imageUrl" => "https://qianba.1024.pm/static/logo.png",
             ],
             "wallet" => "我的零钱",
             "code" => "邀请码",
