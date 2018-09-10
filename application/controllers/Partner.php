@@ -7,11 +7,11 @@ class PartnerController extends \Explorer\ControllerAbstract {
         $aha = false;
         $jump = [
             [
-                'logo' => 'https://qianba.1024.pm/static/logo.png',
+                'logo' => 'https://qianba.1024.pm/static/youzi.png',
                 'url' => 'wxbb7ad0ec88d9efb4',
                 'image' => 'https://qianba.1024.pm/static/qianba.png',
-                'title' => '小猪钱吧',
-                'desc' => '一个让你玩到停不下来的小程序',
+                'title' => '柚子游戏盒子',
+                'desc' => '一个让你玩到停不下来的小游戏盒子',
             ],
         ];
         if ($version === $version_in_review) {
@@ -26,11 +26,11 @@ class PartnerController extends \Explorer\ControllerAbstract {
         $aha = false;
         $jump = [
             [
-                'logo' => 'https://qianba.1024.pm/static/logo.png',
+                'logo' => 'https://qianba.1024.pm/static/youzi.png',
                 'url' => 'wxbb7ad0ec88d9efb4',
                 'image' => 'https://qianba.1024.pm/static/qianba.png',
-                'title' => '小猪钱吧',
-                'desc' => '一个让你玩到停不下来的小程序',
+                'title' => '柚子游戏盒子',
+                'desc' => '一个让你玩到停不下来的小游戏盒子',
             ],
         ];
         if ($version === $version_in_review) {
@@ -38,4 +38,5 @@ class PartnerController extends \Explorer\ControllerAbstract {
         }
         $this->outputSuccess(compact('aha', 'jump'));
     }
+
 }
