@@ -2,17 +2,27 @@
 class NextController extends \Explorer\ControllerAbstract {
 
     public function indexAction() {
-        if (!$this->uid) {
-            return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
-        }
+        $matrix = [
+            [
+                'logo' => 'https://qianba.1024.pm/static/youzi.png',
+                'url' => 'wx7104ccdc4d907073',
+                'title' => '挑壁纸',
+            ],
+            [
+                'logo' => 'https://qianba.1024.pm/static/youzi.png',
+                'url' => 'wx618f3fe1bedd112e',
+                'title' => '算个税',
+            ],
+        ];
 
         $titles = [
             'banner' => 'banner',
             'recommend' => '热门推荐',
+            'partner' => '柚柚必备',
             'try' => '试玩专区',
         ];
         $duration = 60;
-        $stat = 'from=xiaozhuqianba';
+        $stat = 'from=youziyouxihezi';
 
         $bannerIds = [75, 68, 40];
         $recommendIds = [52, 67, 51, 61, 35, 50, 59, 69, 64, 63, 48, 39];
@@ -22,46 +32,37 @@ class NextController extends \Explorer\ControllerAbstract {
         $tasks = $taskModel->batchFetch(array_merge($bannerIds, $recommendIds, $tryIds));
         foreach($tasks as &$task) {
             $task['stat'] = $stat;
+            $task['completed_num'] = 0;
+            $task['button_text'] = '马上玩';
             if ($task['url']) {
                 $task['type'] = 'navigate';
             } else {
                 $task['type'] = 'preview';
             }
         }
-        $mytaskModel = new MytaskModel();
-        $mytasks = $mytaskModel->fetchTasks($this->uid, Constants::TYPE_TASK_MINI);
 
         $banner = $recommend = $try = [];
         foreach($bannerIds as $id) {
             if (isset($tasks[$id])) {
-                $tasks[$id]['completed_num'] = 0;
                 $banner[] = $tasks[$id];
             }
         }
         foreach($recommendIds as $id) {
             if (isset($tasks[$id])) {
-                $tasks[$id]['completed_num'] = 0;
                 $recommend[] = $tasks[$id];
             }
         }
         foreach($tryIds as $id) {
             if (isset($tasks[$id])) {
-                $tasks[$id]['completed_num'] = 0;
-                if ($tasks[$id]['reward'] == 0) {
-                    $tasks[$id]['button_text'] = '马上玩';
-                } else if (isset($mytasks[$id])) {
-                    $tasks[$id]['completed_num'] = 1;
-                    $tasks[$id]['button_text'] = '马上玩';
-                } else {
-                    $tasks[$id]['button_text'] = '试玩￥'.$tasks[$id]['reward'];
-                }
                 $try[] = $tasks[$id];
             }
         }
 
         shuffle($banner);
+        shuffle($recommend);
+        shuffle($try);
 
-        $games = compact('banner', 'recommend', 'try');
+        $games = compact('banner', 'recommend', 'matrix', 'try');
 
         $this->outputSuccess(compact('titles', 'duration', 'games'));
     }
