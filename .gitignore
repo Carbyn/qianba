@@ -5,3 +5,4 @@ static
 web
 *.swo
 *.swp
+crontab/logs/
