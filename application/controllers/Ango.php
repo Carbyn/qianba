@@ -1,7 +1,7 @@
 <?php
 class AngoController extends \Explorer\ControllerAbstract {
 
-    const VERSION_IN_REVIEW = '1.0.100';
+    const VERSION_IN_REVIEW = '1.0.108';
 
     public function ahaAction() {
         $ver = $this->getRequest()->getQuery('bhb');
