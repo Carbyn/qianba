@@ -2,23 +2,28 @@
 class AngoController extends \Explorer\ControllerAbstract {
 
     const VERSION_IN_REVIEW = '1.0.108';
+    const VERSION_IN_REVIEW_YOUZI = '1.0.2';
 
     public function ahaAction() {
         $ver = $this->getRequest()->getQuery('bhb');
+        $app = $this->getRequest()->getQuery('app', 'qianba');
         $aha = false;
-        if ($ver === self::VERSION_IN_REVIEW) {
+        if ($app == 'qianba' && $ver === self::VERSION_IN_REVIEW) {
+            $aha = true;
+        }
+        if ($app == 'youzi' && $ver === self::VERSION_IN_REVIEW_YOUZI) {
             $aha = true;
         }
         // test
         $new = 'wx69410165e46aab0b';
         $new = '';
         $texts = [
-            "appname" => "小猪钱吧",
+            "appname" => "柚子游戏盒子",
             "notice" => "“小猪钱吧”是一个能帮你用手机赚零花钱的小助手，按照引导完成任务，得到奖励即可提现。邀请好友，永久提成10%哦~",
             'share' => [
-                "title" => '有人@你，发现一个让你玩到停不下来的小程序!',
+                "title" => '有人@你，发现一个让你玩到停不下来的小游戏盒子!',
                 'path' => '/pages/xiaozhu',
-                "imageUrl" => "https://qianba.1024.pm/static/logo.png",
+                "imageUrl" => "https://qianba.1024.pm/static/youzi.png",
             ],
             "wallet" => "我的零钱",
             "code" => "邀请码",

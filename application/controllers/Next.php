@@ -18,7 +18,7 @@ class NextController extends \Explorer\ControllerAbstract {
         $titles = [
             'banner' => 'banner',
             'recommend' => '热门推荐',
-            'partner' => '柚柚必备',
+            'partner' => '柚友必备',
             'try' => '试玩专区',
         ];
         $duration = 60;
