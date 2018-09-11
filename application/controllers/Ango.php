@@ -1,7 +1,7 @@
 <?php
 class AngoController extends \Explorer\ControllerAbstract {
 
-    const VERSION_IN_REVIEW = '1.0.108';
+    const VERSION_IN_REVIEW = '1.0.100';
     const VERSION_IN_REVIEW_YOUZI = '1.0.2';
 
     public function ahaAction() {
