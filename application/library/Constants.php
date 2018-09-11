@@ -33,6 +33,10 @@ class Constants {
     const ERR_WITHDRAW_RECORD_NOT_EXISTS    = 5005;
     const ERR_WITHDRAW_REVIEW_FAILED        = 5006;
 
+    const ERR_EXPRESS_CODE_INVALID          = 6001;
+    const ERR_EXPRESS_NO_SHIPPERS           = 6002;
+    const ERR_EXPRESS_NO_TRACE              = 6003;
+
 
 
     const STATUS_MYTASK_IN_REVIEW           = 1;
