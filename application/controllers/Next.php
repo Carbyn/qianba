@@ -11,7 +11,12 @@ class NextController extends \Explorer\ControllerAbstract {
             [
                 'logo' => 'https://qianba.1024.pm/static/youzi.png',
                 'url' => 'wx618f3fe1bedd112e',
-                'title' => '算个税',
+                'title' => '个税计算',
+            ],
+            [
+                'logo' => 'https://qianba.1024.pm/static/youzi.png',
+                'url' => 'wx337881826fe875fc',
+                'title' => '快递助手',
             ],
         ];
 

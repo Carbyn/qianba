@@ -8,7 +8,7 @@ class PartnerController extends \Explorer\ControllerAbstract {
         $jump = [
             [
                 'logo' => 'https://qianba.1024.pm/static/youzi.png',
-                'url' => 'wxbb7ad0ec88d9efb4',
+                'url' => 'wx69cafbf347e22ce7',
                 'image' => 'https://qianba.1024.pm/static/qianba.png',
                 'title' => '柚子游戏盒子',
                 'desc' => '一个让你玩到停不下来的小游戏盒子',
@@ -27,7 +27,7 @@ class PartnerController extends \Explorer\ControllerAbstract {
         $jump = [
             [
                 'logo' => 'https://qianba.1024.pm/static/youzi.png',
-                'url' => 'wxbb7ad0ec88d9efb4',
+                'url' => 'wx69cafbf347e22ce7',
                 'image' => 'https://qianba.1024.pm/static/qianba.png',
                 'title' => '柚子游戏盒子',
                 'desc' => '一个让你玩到停不下来的小游戏盒子',
@@ -46,7 +46,7 @@ class PartnerController extends \Explorer\ControllerAbstract {
         $jump = [
             [
                 'logo' => 'https://qianba.1024.pm/static/youzi.png',
-                'url' => 'wxbb7ad0ec88d9efb4',
+                'url' => 'wx69cafbf347e22ce7',
                 'image' => 'https://qianba.1024.pm/static/qianba.png',
                 'title' => '柚子游戏盒子',
                 'desc' => '一个让你玩到停不下来的小游戏盒子',

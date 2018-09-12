@@ -2,8 +2,8 @@
 namespace Explorer;
 class Weixin {
 
-    const APPID = 'wxbb7ad0ec88d9efb4';
-    const SECRET = '16e79ba8b4c35e934d93879f79404450';
+    const APPID = 'wx69cafbf347e22ce7';
+    const SECRET = '8cb44c7e3c902ac7e4b3cce503b7be97';
 
     const JSCODE2SESSION_URL = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code';
 
