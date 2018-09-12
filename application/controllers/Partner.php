@@ -40,7 +40,7 @@ class PartnerController extends \Explorer\ControllerAbstract {
     }
 
     public function expressAction() {
-        $version_in_review = '1.0.1';
+        $version_in_review = '1.0.0';
         $version = $this->getRequest()->getQuery('version');
         $aha = false;
         $jump = [
