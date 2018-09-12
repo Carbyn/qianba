@@ -11,12 +11,13 @@ class ExpressController extends \Explorer\ControllerAbstract {
         if (!$shippers || !$shippers['Success'] || empty($shippers['Shippers'])) {
             return $this->outputError(Constants::ERR_EXPRESS_NO_SHIPPERS, '单号无效，请确认后重新输入');
         }
+        //return $this->outputSuccess($shippers);
         $shipper = $shippers['Shippers'][0];
         $shippers = $this->getShippers();
         if (isset($shippers[$shipper['ShipperCode']])) {
             $shipper = $shippers[$shipper['ShipperCode']];
         } else {
-            $shipper['ShipperLogo'] = 'https://qianba.1024.pm/static/youzi.png';
+            $shipper['ShipperLogo'] = 'https://qianba.1024.pm/static/express/default.png';
             $shipper['ShipperPhone'] = '';
         }
         $traces = \Explorer\Kdniao::search($shipper['ShipperCode'], $code);
