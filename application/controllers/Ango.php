@@ -8,13 +8,15 @@ class AngoController extends \Explorer\ControllerAbstract {
         $ver = $this->getRequest()->getQuery('bhb');
         $app = $this->getRequest()->getQuery('app', 'qianba');
         $aha = false;
-        $new = '';
         if ($app == 'qianba' && $ver === self::VERSION_IN_REVIEW) {
             $aha = true;
-            $new = 'wx69cafbf347e22ce7';
         }
         if ($app == 'youzi' && $ver === self::VERSION_IN_REVIEW_YOUZI) {
             $aha = true;
+        }
+        $new = '';
+        if ($app == 'qianba') {
+            $new = 'wx69cafbf347e22ce7';
         }
         $texts = [
             "appname" => "柚子游戏盒子",
