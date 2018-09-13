@@ -34,6 +34,7 @@ class Kdniao {
     private static function doPost($url, $data) {
         $curl = new \Curl\Curl();
         $curl->setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $curl->setOpt(CURLOPT_TIMEOUT, 2);
         $data = http_build_query($data);
         $curl->post($url, $data);
         if ($curl->error) {
