@@ -76,7 +76,7 @@ class NextController extends \Explorer\ControllerAbstract {
 
     public function floorAction() {
         $bannerIds = [81, 75, 68, 40];
-        $recommendIds = [82, 52, 67, 51, 61, 35, 50, 59, 69, 64, 63, 48, 39];
+        $recommendIds = [82, 52, 67, 51, 61, 35, 50, 59, 69, 64, 63, 48];
         $matrixIds = [78, 79, 80];
 
         $taskModel = new TaskModel();
@@ -132,7 +132,7 @@ class NextController extends \Explorer\ControllerAbstract {
     }
 
     public function feedAction() {
-        $feedIds = [31, 32, 33, 34, 36, 37, 38, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
+        $feedIds = [31, 32, 33, 34, 36, 37, 38, 39, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
 
         $page = (int)$this->getRequest()->getQuery('page', 1);
         $page = max(1, $page);
