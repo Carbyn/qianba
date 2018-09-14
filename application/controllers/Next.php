@@ -75,7 +75,7 @@ class NextController extends \Explorer\ControllerAbstract {
     }
 
     public function floorAction() {
-        $bannerIds = [75, 68, 40];
+        $bannerIds = [81, 75, 68, 40];
         $recommendIds = [52, 67, 51, 61, 35, 50, 59, 69, 64, 63, 48, 39];
         $matrixIds = [78, 79, 80];
 
@@ -109,7 +109,7 @@ class NextController extends \Explorer\ControllerAbstract {
             }
         }
 
-        shuffle($banner);
+        $banner;
         shuffle($recommend);
         $games = [
             [
