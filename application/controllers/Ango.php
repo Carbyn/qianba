@@ -23,7 +23,7 @@ class AngoController extends \Explorer\ControllerAbstract {
             "notice" => "“小猪钱吧”是一个能帮你用手机赚零花钱的小助手，按照引导完成任务，得到奖励即可提现。邀请好友，永久提成10%哦~",
             'share' => [
                 "title" => '有人@你，发现一个让你玩到停不下来的小游戏盒子!',
-                'path' => '/pages/xiaozhu',
+                'path' => '/pages/box',
                 "imageUrl" => "https://qianba.1024.pm/static/youzi.png",
             ],
             "wallet" => "我的零钱",
