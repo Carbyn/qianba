@@ -9,6 +9,7 @@ create table `task` (
     `task_desc` varchar(128) not null default '' comment 'task desc',
     `buttons` varchar(10240) not null default '' comment 'buttons json',
     `url` varchar(1024) not null default '' comment 'task download or detail url',
+    `apppath` varchar(128) not null default '' comment 'minigame start path',
     `code` varchar(32) not null default '' comment 'task official invitation code',
     `reward` bigint(20) unsigned not null default 0 comment 'task reward, unit 0.01',
     `app_reward` bigint(20) unsigned not null default 0 comment 'task app reward, unit 0.01',
