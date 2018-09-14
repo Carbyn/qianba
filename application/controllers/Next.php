@@ -158,6 +158,7 @@ class NextController extends \Explorer\ControllerAbstract {
         }
         $games = [
             'title' => '试玩专区',
+            'componentName' => 'feed',
             'list' => $tasks,
             'is_end' => count($tasks) < $limit,
         ];
