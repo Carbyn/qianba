@@ -4,10 +4,10 @@ class NextController extends \Explorer\ControllerAbstract {
     private $stat = 'from=youziyouxihezi';
 
     private $bannerIds = [81, 82, 89, 40];
-    private $recommendIds = [83, 84, 85, 86, 87, 88, 89, 52, 67, 51, 61, 35];
+    private $recommendIds = [83, 84, 85, 86, 87, 88, 52, 67, 51, 61, 35, 50];
     private $matrixIds = [78, 79, 80];
     // 75
-    private $feedIds = [59, 69, 64, 63, 48, 50, 37, 31, 32, 33, 34, 36, 38, 39, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
+    private $feedIds = [59, 69, 64, 63, 48, 37, 31, 32, 33, 34, 36, 38, 39, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
 
     public function floorAction() {
         $taskModel = new TaskModel();
