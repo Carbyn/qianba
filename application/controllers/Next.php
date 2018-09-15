@@ -10,14 +10,14 @@ class NextController extends \Explorer\ControllerAbstract {
         'juese'     => ['title' => '角色游戏', 'componentName' => 'site',   'ids' => [82, 83, 84, 85, 86, 88, 90, 91]],
         'qipai'     => ['title' => '棋牌游戏', 'componentName' => 'site',   'ids' => [109, 110, 111, 112, 113, 114, 115, 116]],
         'yangcheng' => ['title' => '养成游戏', 'componentName' => 'site',   'ids' => [117, 118, 119, 120, 121, 122, 123, 124]],
-        'dongzuo'   => ['title' => '动作游戏', 'componentName' => 'site',   'ids' => [125, 126, 127, 128, 129, 130, 131, 132]],
+        'dongzuo'   => ['title' => '动作游戏', 'componentName' => 'site',   'ids' => [125, 126, 75, 128, 129, 130, 131, 132]],
         'jingsu'    => ['title' => '竞速游戏', 'componentName' => 'site',   'ids' => [133, 134, 135, 136, 137, 138, 139, 140]],
         'sheji'     => ['title' => '射击游戏', 'componentName' => 'site',   'ids' => [81, 87, 89, 141, 142, 143, 144, 145]],
         'celue'     => ['title' => '策略游戏', 'componentName' => 'site',   'ids' => [146, 147, 148, 149, 150, 151, 152, 153]],
         'yizhi'     => ['title' => '益智游戏', 'componentName' => 'site',   'ids' => [154, 155, 156, 157, 158, 159, 160, 161]],
     ];
 
-    private $feedIds = [40, 75, 68, 67, 61, 35, 59, 69, 64, 63, 48, 37, 31, 32, 33, 34, 36, 38, 39, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
+    private $feedIds = [40, 68, 67, 61, 35, 59, 69, 64, 63, 48, 37, 31, 32, 33, 34, 36, 38, 39, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
 
     public function floorAction() {
         $taskModel = new TaskModel();
