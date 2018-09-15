@@ -13,6 +13,7 @@ create table `task` (
     `code` varchar(32) not null default '' comment 'task official invitation code',
     `reward` bigint(20) unsigned not null default 0 comment 'task reward, unit 0.01',
     `app_reward` bigint(20) unsigned not null default 0 comment 'task app reward, unit 0.01',
+    `icon` varchar(1024) not null default '' comment 'minigame icon',
     `images` varchar(1024) not null default '' comment 'task desc images, seperated by |',
     `demos` varchar(1024) not null default '' comment 'task upload image demos, seperated by |',
     `inventory` int(11) unsigned not null default 0 comment 'task inventory',

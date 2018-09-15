@@ -3,10 +3,10 @@ class TaskModel extends AbstractModel {
 
     const TABLE = 'task';
 
-    public function createTask($name, $type, $os, $task_desc, $url, $apppath, $reward, $images, $demos, $inventory) {
+    public function createTask($name, $type, $os, $task_desc, $url, $apppath, $reward, $icon, $images, $demos, $inventory) {
         $reward = $reward * Constants::PRECISION;
         $os = $os == Constants::OS_ANDROID ? 0 : 1;
-        $data = compact('name', 'type', 'os', 'task_desc', 'url', 'apppath', 'reward', 'images', 'demos', 'inventory');
+        $data = compact('name', 'type', 'os', 'task_desc', 'url', 'apppath', 'reward', 'icon', 'images', 'demos', 'inventory');
         if ($type == Constants::TYPE_TASK_MINI) {
             $data['subtasks'] = 1;
         }

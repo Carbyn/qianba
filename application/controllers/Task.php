@@ -177,15 +177,16 @@ class TaskController extends \Explorer\ControllerAbstract {
         $url = $this->getRequest()->getPost('url');
         $apppath = $this->getRequest()->getPost('apppath');
         $reward = $this->getRequest()->getPost('reward');
+        $icon = $this->getRequest()->getPost('icon');
         $images = $this->getRequest()->getPost('images');
         $demos = $this->getRequest()->getPost('demos');
         $inventory = (int)$this->getRequest()->getPost('inventory');
 
-        if (!$name || !is_numeric($type) || !$os || !is_numeric($reward) || !$images) {
+        if (!$name || !is_numeric($type) || !$os || !is_numeric($reward) || !$icon) {
             return $this->outputError(Constants::ERR_TASK_CREATE_INFO_INVALID, '任务信息不全');
         }
         $taskModel = new TaskModel();
-        $id = $taskModel->createTask($name, $type, $os, $task_desc, $url, $apppath, $reward, $images, $demos, $inventory);
+        $id = $taskModel->createTask($name, $type, $os, $task_desc, $url, $apppath, $reward, $icon, $images, $demos, $inventory);
         if (!$id) {
             return $this->outputError(Constants::ERR_TASK_CREATE_FAILED, '任务创建失败');
         }
