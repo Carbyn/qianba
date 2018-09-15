@@ -26,7 +26,7 @@ class NextController extends \Explorer\ControllerAbstract {
         }
 
         $banner = $recommend = $try = [];
-        foreach($this->bannerIds as $id) {
+        foreach($bannerIds as $id) {
             if (isset($tasks[$id])) {
                 $banner[] = $tasks[$id];
             }
