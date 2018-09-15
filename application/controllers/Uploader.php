@@ -25,7 +25,8 @@ class UploaderController extends \Explorer\ControllerAbstract {
         }
         $config = new Yaf\Config\Ini(APPLICATION_PATH.'/conf/common.ini', \Constants::env());
         $image = $config->common->domain.'/uploads/'.$img_name;
-        $this->outputSuccess(compact('image'));
+        // $this->outputSuccess(compact('image'));
+        echo $image;
     }
 
 }
