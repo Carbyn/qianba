@@ -3,15 +3,17 @@ class NextController extends \Explorer\ControllerAbstract {
 
     private $stat = 'from=youziyouxihezi';
 
-    private $bannerIds = [81, 82, 89, 40];
-    private $recommendIds = [83, 84, 85, 86, 87, 88, 52, 67, 51, 61, 35, 50];
+    private $bannerIds = [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91];
+    private $recommendIds = [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 52];
     private $matrixIds = [78, 79, 80];
-    // 75
-    private $feedIds = [59, 69, 64, 63, 48, 37, 31, 32, 33, 34, 36, 38, 39, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
+    // 40, 75, 68 add icon
+    private $feedIds = [67, 51, 61, 35, 50, 59, 69, 64, 63, 48, 37, 31, 32, 33, 34, 36, 38, 39, 46, 47, 49, 60, 62, 65, 66, 77, 71, 72, 73, 74, 76];
 
     public function floorAction() {
         $taskModel = new TaskModel();
-        $tasks = $taskModel->batchFetch(array_merge($this->bannerIds, $this->recommendIds, $this->matrixIds));
+        shuffle($this->bannerIds);
+        $bannerIds = array_slice($this->bannerIds, 0, 4);
+        $tasks = $taskModel->batchFetch(array_merge($bannerIds, $this->recommendIds, $this->matrixIds));
         foreach($tasks as &$task) {
             $task['stat'] = $this->stat;
             $task['completed_num'] = 0;
