@@ -16,9 +16,9 @@ class CrawlUnsplash {
             $data = self::fetchUrl($url);
             if (!$data) {
                 echo "fetchUrl failed $url\n";
-                break;
+            } else {
+                self::save($data);
             }
-            self::save($data);
         }
 
         echo "CrawlUnsplash run done\n";
