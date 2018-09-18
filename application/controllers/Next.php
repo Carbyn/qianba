@@ -2,8 +2,8 @@
 class NextController extends \Explorer\ControllerAbstract {
 
     private $ids = [
-        'banner'    => ['title' => '顶部横图', 'componentName' => 'banner', 'ids' => [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]],
-        'recommend' => ['title' => '热门推荐', 'componentName' => 'site',   'ids' => [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 52]],
+        'banner'    => ['title' => '顶部横图', 'componentName' => 'banner', 'ids' => [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 162]],
+        'recommend' => ['title' => '热门推荐', 'componentName' => 'site',   'ids' => [81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 162]],
         'matrix'    => ['title' => '柚友必备', 'componentName' => 'site',   'ids' => [78, 79, 80]],
         'latest'    => ['title' => '最新榜单', 'componentName' => 'site',   'ids' => [51, 52, 92, 93, 94, 50, 95, 96, 97, 98, 99, 100]],
         'xiuxian'   => ['title' => '休闲游戏', 'componentName' => 'site',   'ids' => [101, 102, 103, 104, 105, 106, 107, 108]],
