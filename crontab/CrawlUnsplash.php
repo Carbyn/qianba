@@ -7,7 +7,7 @@ $app->execute(['CrawlUnsplash', 'run']);
 class CrawlUnsplash {
 
     const UNSPLASH_URL = 'https://unsplash.com/napi/photos?page=%d&per_page=12&order_by=latest';
-    const PAGES_PER_TIME = 30;
+    const PAGES_PER_TIME = 10;
 
     public static function run() {
         $page = self::PAGES_PER_TIME;
