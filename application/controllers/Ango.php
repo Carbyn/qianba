@@ -48,6 +48,7 @@ class AngoController extends \Explorer\ControllerAbstract {
             "demos" => "任务截图例子",
             "screenshots" => "上传任务截图",
             "bd" => "商务合作",
+            'contact' => '18618482206',
             "new_income" => "新入账",
         ];
         if ($this->os == Constants::OS_ANDROID) {
