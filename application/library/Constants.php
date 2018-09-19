@@ -37,6 +37,9 @@ class Constants {
     const ERR_EXPRESS_NO_SHIPPERS           = 6002;
     const ERR_EXPRESS_NO_TRACE              = 6003;
 
+    const ERR_MINI_NOT_EXISTS               = 7001;
+    const ERR_MINI_ORDERBY_INVALID          = 7002;
+
 
 
     const STATUS_MYTASK_IN_REVIEW           = 1;
