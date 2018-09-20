@@ -5,7 +5,11 @@ class MiniModel extends AbstractModel {
 
     public function fetch($id) {
         $where['id'] = $id;
-        return $this->db->table(self::TABLE)->where($where)->get();
+        $mini = $this->db->table(self::TABLE)->where($where)->get();
+        if ($mini) {
+            $this->format($mini);
+        }
+        return $mini;
     }
 
     public function fetchAll($type, $orderBy, $orderDir, $page, $pagesize) {
@@ -36,6 +40,7 @@ class MiniModel extends AbstractModel {
     private function format(&$mini) {
         $mini = (array)$mini;
         $mini['pos'] = explode(',', $mini['pos']);
+        $mini['mode'] = explode(',', $mini['mode']);
         $mini['mobile'] = substr($mini['mobile'], 0, 3).'****'.substr($mini['mobile'], 7);
         unset($mini['wechat'], $mini['qq']);
         $mini['total_user'] = $mini['total_user'] > 1000 ? ($mini['total_user']/10000).'w' : $mini['total_user'];
