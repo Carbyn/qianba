@@ -43,8 +43,8 @@ class MiniModel extends AbstractModel {
         $mini['mode'] = explode(',', $mini['mode']);
         $mini['mobile'] = substr($mini['mobile'], 0, 3).'****'.substr($mini['mobile'], 7);
         unset($mini['wechat'], $mini['qq']);
-        $mini['total_user'] = $mini['total_user'] > 1000 ? ($mini['total_user']/10000).'w' : $mini['total_user'];
-        $mini['dau'] = $mini['dau'] > 1000 ? ($mini['dau']/10000).'w' : $mini['dau'];
+        $mini['total_user'] = $mini['total_user'] >= 1000 ? ($mini['total_user']/10000).'w' : $mini['total_user'];
+        $mini['dau'] = $mini['dau'] >= 1000 ? ($mini['dau']/10000).'w' : $mini['dau'];
     }
 
 }
