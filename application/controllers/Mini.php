@@ -1,24 +1,60 @@
 <?php
 class MiniController extends \Explorer\ControllerAbstract {
 
+    const VERSION_IN_REVIEW = '1.0.0';
+
     private $orderBys = ['id', 'dau', 'total_user'];
 
     public function indexAction() {
-        $notices = [
-            '柚子游戏盒子和枪神先生达成合作',
-            '柚子游戏盒子和超级忍者达成合作',
-            '柚子游戏盒子和修罗武神达成合作',
-            '柚子游戏盒子和逐日战神达成合作',
-            '柚子游戏盒子和大军师达成合作',
-            '柚子游戏盒子和九仙图达成合作',
-            '柚子游戏盒子和仙剑至尊达成合作',
-            '柚子游戏盒子和超人守卫达成合作',
-            '柚子游戏盒子和武圣传奇达成合作',
-            '柚子游戏盒子和奇迹正版MU达成合作',
-            '柚子游戏盒子和皇上吉祥2达成合作',
+        $ver = $this->getRequest()->getQuery('bhb');
+        $aha = false;
+        if ($ver === self::VERSION_IN_REVIEW) {
+            $aha = true;
+        }
+        $texts = [
+            'appname' => '柚子换量推广',
+            'index' => [
+                'notices' => [
+                    '柚子游戏盒子和枪神先生达成合作',
+                    '柚子游戏盒子和超级忍者达成合作',
+                    '柚子游戏盒子和修罗武神达成合作',
+                    '柚子游戏盒子和逐日战神达成合作',
+                    '柚子游戏盒子和大军师达成合作',
+                    '柚子游戏盒子和九仙图达成合作',
+                    '柚子游戏盒子和仙剑至尊达成合作',
+                    '柚子游戏盒子和超人守卫达成合作',
+                    '柚子游戏盒子和武圣传奇达成合作',
+                    '柚子游戏盒子和奇迹正版MU达成合作',
+                    '柚子游戏盒子和皇上吉祥2达成合作',
+                ],
+                'navlist' => [
+                    '小游戏换量',
+                    '渠道推广',
+                ],
+                'filters' => [
+                    '最新',
+                    '日活',
+                    '注册',
+                ],
+                'empty_text' => '小游戏去哪儿了，快到碗里来~',
+                'publish' => '发布',
+                'publish_title' => '发布信息请加微信',
+                'contact' => '18618482206',
+                'share' => [
+                    "title" => '专注小游戏推广100年',
+                    'path' => '/pages/index',
+                    "imageUrl" => "https://qianba.1024.pm/static/youzi.png",
+                ],
+            ],
+            'detail' => [
+                'buttons' => [
+                    '分享',
+                    '邀请合作',
+                ],
+                'cooperate_title' => '合作请加微信',
+            ],
         ];
-        $contact = '18618482206';
-        return $this->outputSuccess(compact('notices', 'contact'));
+        return $this->outputSuccess(compact('aha', 'texts'));
     }
 
     public function feedAction() {
