@@ -47,6 +47,16 @@ class MiniController extends \Explorer\ControllerAbstract {
                 ],
             ],
             'detail' => [
+                'pos' => '资源位置',
+                'publisher' => '资源发布者',
+                'contact' => '联系人',
+                'mobile' => '联系电话',
+                'company' => '公司名称',
+                'base_info' => '基础信息',
+                'user_attrs' => '用户属性',
+                'total_user' => '总注册用户',
+                'dau' => '日活量',
+                'res_desc' => '资源描述',
                 'buttons' => [
                     '分享',
                     '邀请合作',
