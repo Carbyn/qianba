@@ -13,6 +13,10 @@ class TaskModel extends AbstractModel {
         return $this->db->table(self::TABLE)->insert($data);
     }
 
+    public function createMini($name, $icon, $images) {
+        $type = Constants::TYPE_TASK_MINI;
+    }
+
     public function createSubtask($name, $type, $parent_id, $task_desc, $buttons, $url, $code, $reward, $app_reward, $images, $demos) {
         $reward = $reward * Constants::PRECISION;
         $app_reward = $app_reward * Constants::PRECISION;
