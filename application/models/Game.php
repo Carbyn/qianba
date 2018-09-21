@@ -18,7 +18,7 @@ class GameModel extends AbstractModel {
         return $this->db->table(self::TABLE)->where($where)->get();
     }
 
-    public function fetchByName($name) {
+    public function exists($name) {
         $where['name'] = $name;
         return $this->db->table(self::TABLE)->where($where)->get();
     }
