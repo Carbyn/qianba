@@ -6,7 +6,7 @@ $app->execute(['CrawlXiaoyouxi100', 'run']);
 class CrawlXiaoyouxi100 {
 
     const XIAOYOUXI100_URL = 'https://www.xiaoyouxi100.com/%s/index_%d.html';
-    const PAGES_PER_TIME = 10;
+    const PAGES_PER_TIME = 3;
 
     static $categories = ['xiuxian', 'dongzuo', 'sheji', 'juese', 'tiyu', 'celue', 'jingsu', 'qipai', 'yizhi', 'yangcheng', 'yinyue', 'ertong'];
 
@@ -54,11 +54,14 @@ class CrawlXiaoyouxi100 {
         }
         $dom->load($html);
         $gameBoxes = $dom->find('.gamebox');
+        unset($dom);
         $gameUrls = [];
         foreach($gameBoxes as $box) {
             $aNode = $box->find('.p-left a', 0);
             $gameUrls[] = $aNode->getAttribute('href');
+            unset($aNode);
         }
+        unset($gameBoxes);
         return $gameUrls;
     }
 
@@ -73,10 +76,17 @@ class CrawlXiaoyouxi100 {
         $dom->load($html);
         $nameNode = $dom->find('.game-c h3', 0);
         $game['name'] = $nameNode->innertext();
+        unset($nameNode);
         $iconNode = $dom->find('.game-img img', 0);
         $game['icon'] = $iconNode->getAttribute('src');
+        unset($iconNode);
         $qrcodeNode = $dom->find('.qcode img', 0);
         $game['qrcode'] = $qrcodeNode->getAttribute('src');
+        unset($qrcodeNode);
+        unset($dom);
+        if ($game['qrcode'] == '/images/xiaoyouxi100qcode.jpg') {
+            return false;
+        }
         return $game;
     }
 

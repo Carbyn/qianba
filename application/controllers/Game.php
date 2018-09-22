@@ -24,8 +24,7 @@ class GameController extends \Explorer\ControllerAbstract {
             'title' => '最新榜单',
             'category' => '',
             'componentName' => 'site',
-            // todo
-            'ids' => [4, 5, 6, 7]
+            'ids' => [537, 649, 575, 77, 816, 474, 535, 138, 603, 863, 568, 433]
         ],
         'xiuxian'   => [
             'title' => '休闲游戏',
@@ -146,7 +145,8 @@ class GameController extends \Explorer\ControllerAbstract {
         $gameModel = new GameModel();
         $games = $gameModel->fetchByCategory($category, $page, $pagesize);
         $games = array_values($games);
-        $this->outputSuccess(compact('games'));
+        $is_end = count($games) < $pagesize;
+        $this->outputSuccess(compact('games', 'is_end'));
     }
 
     public function createAction() {
