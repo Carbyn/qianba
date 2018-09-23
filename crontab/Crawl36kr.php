@@ -25,7 +25,7 @@ class Crawl36kr {
                 echo "events empty\n";
                 break;
             }
-            if ($events['data']['items'][0]['id'] + 1 < $startID) {
+            if ($events['data']['items'][0]['id'] > $startID - 20) {
                 echo "no more new events\n";
                 break;
             }
