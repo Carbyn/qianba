@@ -22,6 +22,7 @@ class CrawlXiaoyouxi100 {
                 } else {
                     self::save($games, $category);
                 }
+                sleep(60);
             }
             echo "Crawl $category done\n";
         }
