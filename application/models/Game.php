@@ -51,7 +51,8 @@ class GameModel extends AbstractModel {
     public function fetchAll($page, $pagesize) {
         $offset = max(0, ($page - 1) * $pagesize);
         $games = $this->db->table(self::TABLE)
-            ->orderBy('appid DESC, id DESC')
+            ->where('appid', '')
+            ->orderBy('id DESC')
             ->limit($offset, $pagesize)
             ->getAll();
         $ret = [];
