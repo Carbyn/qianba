@@ -159,7 +159,7 @@ class NextController extends \Explorer\ControllerAbstract {
     private function adapt($game) {
         $task = [
 			"id" => $game['id'],
-			"name" => $game['name'],
+			"name" => mb_strlen($game['name']) > 7 ? mb_substr($game['name'], 0, 7) : $game['name'],
 			"type" => $game['appid'] ? 'navigate' : 'preview',
 			"category" => "",
 			"os" => "0",
