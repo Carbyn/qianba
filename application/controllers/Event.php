@@ -1,6 +1,17 @@
 <?php
 class EventController extends \Explorer\ControllerAbstract {
 
+    const VERSION_IN_REVIEW = '1.0.1';
+
+    public function indexAction() {
+        $ver = $this->getRequest()->getQuery('bhb');
+        $aha = false;
+        if ($ver === self::VERSION_IN_REVIEW) {
+            $aha = true;
+        }
+        $this->outputSuccess(compact('aha'));
+    }
+
     public function tagsAction() {
         $tags = [
             [
