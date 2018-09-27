@@ -141,7 +141,9 @@ class NextController extends \Explorer\ControllerAbstract {
     public function feedAction() {
         $page = (int)$this->getRequest()->getQuery('page', 1);
         $page = max(1, $page);
-        $pagesize = 50;
+        // todo
+        $page = 3;
+        $pagesize = 100;
         $gameModel = new GameModel();
         $games = $gameModel->fetchAll($page, $pagesize);
         foreach($games as &$game) {
