@@ -9,7 +9,14 @@ class EventController extends \Explorer\ControllerAbstract {
         if ($ver === self::VERSION_IN_REVIEW) {
             $aha = true;
         }
-        $this->outputSuccess(compact('aha'));
+        $texts = [
+            'share' => [
+                "title" => '最新最全最有料的一手快讯，就在柚子大事件！',
+                'path' => '/pages/index',
+                "imageUrl" => "https://qianba.1024.pm/static/youzi.png",
+            ],
+        ];
+        $this->outputSuccess(compact('aha', 'texts'));
     }
 
     public function tagsAction() {
