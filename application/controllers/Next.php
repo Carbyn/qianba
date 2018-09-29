@@ -18,7 +18,7 @@ class NextController extends \Explorer\ControllerAbstract {
             'title' => '柚友必备',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [1, 2, 3, 957]
+            'ids' => [1, 2, 3, 958]
         ],
         'latest'    => [
             'title' => '最新榜单',
