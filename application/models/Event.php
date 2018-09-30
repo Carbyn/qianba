@@ -8,8 +8,7 @@ class EventModel extends AbstractModel {
         $offset = max(0, ($page - 1) * $pagesize);
         $events = $this->db->table(self::TABLE)
             ->where($where)
-            ->orderBy('published_at', 'DESC')
-            ->orderBy('id', 'DESC')
+            ->orderBy('published_at DESC, id DESC')
             ->limit($offset, $pagesize)
             ->getAll();
         foreach($events as &$event) {
