@@ -33,6 +33,10 @@ class EventController extends \Explorer\ControllerAbstract {
                 'tag' => 'invest',
                 'name' => '融资',
             ],
+            [
+                'tag' => 'edu',
+                'name' => '教育',
+            ],
         ];
         $this->outputSuccess(compact('tags'));
     }
