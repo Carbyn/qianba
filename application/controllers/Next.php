@@ -117,8 +117,11 @@ class NextController extends \Explorer\ControllerAbstract {
                 }
             }
             if ($blockName == 'banner') {
+                $first = ${$blockName}[0];
+                ${$blockName} = array_slice(${$blockName}, 1);
                 shuffle(${$blockName});
-                ${$blockName} = array_slice(${$blockName}, 0, 4);
+                ${$blockName} = array_slice(${$blockName}, 0, 3);
+                array_unshift(${$blockName}, $first);
             }
             if ($block['category'] != '' && count(${$blockName}) < 16) {
                 $categoryGames = $gameModel->fetchByCategory($block['category'], 1, 16);
