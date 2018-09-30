@@ -6,7 +6,7 @@ class NextController extends \Explorer\ControllerAbstract {
             'title' => '顶部横图',
             'category' => '',
             'componentName' => 'banner',
-            'ids' => [1012, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            'ids' => [1012, 4, 5, 8, 10, 12, 14, 15]
         ],
         'recommend' => [
             'title' => '热门推荐',
