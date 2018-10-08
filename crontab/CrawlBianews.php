@@ -61,7 +61,7 @@ class CrawlBianews {
         foreach($liNodes as $liNode) {
             $event['id'] = $liNode->getAttribute('id');
             $event['title'] = $liNode->find('.title', 0)->innertext();
-            $event['description'] = str_replace([' ', "\n", '&nbsp;'], '', strip_tags($liNode->find('.content', 0)->innertext()));
+            $event['description'] = str_replace(['Bianews', ' ', "\n", '&nbsp;'], '', strip_tags($liNode->find('.content', 0)->innertext()));
             $event['time'] = substr($liNode->find('.pub_time', 0)->getAttribute('data-time'), 0, 10);
             $events[] = $event;
         }
