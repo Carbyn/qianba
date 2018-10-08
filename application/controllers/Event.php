@@ -34,6 +34,10 @@ class EventController extends \Explorer\ControllerAbstract {
                 'name' => '汽车',
             ],
             [
+                'tag' => 'travel',
+                'name' => '旅游',
+            ],
+            [
                 'tag' => 'ecom',
                 'name' => '电商',
             ],
