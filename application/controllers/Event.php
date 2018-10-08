@@ -30,6 +30,10 @@ class EventController extends \Explorer\ControllerAbstract {
                 'name' => '区块链',
             ],
             [
+                'tag' => 'car',
+                'name' => '汽车',
+            ],
+            [
                 'tag' => 'ecom',
                 'name' => '电商',
             ],
