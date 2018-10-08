@@ -56,7 +56,7 @@ class CrawlBlockmeta {
             if ($eventModel->exists(self::SOURCE, $oid)) {
                 continue;
             }
-            $eventModel->create($oid, self::SOURCE, self::TAG_NAME, $item['title'], $item['content'], $item['post_date']);
+            $eventModel->create($oid, self::SOURCE, self::TAG_NAME, $item['title'], strip_tags($item['content']), $item['post_date']);
             echo $oid." saved\n";
         }
         return true;
