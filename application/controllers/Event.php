@@ -63,4 +63,17 @@ class EventController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('events', 'is_end'));
     }
 
+    public function detailAction() {
+        $id = $this->getRequest()->getQuery('id');
+        if (!$id) {
+            return $this->outputError(Constants::ERR_EVENT_NOT_FOUND, '大事件不存在');
+        }
+        $eventModel = new EventModel();
+        $event = $eventModel->fetch($id);
+        if (!$event) {
+            return $this->outputError(Constants::ERR_EVENT_NOT_FOUND, '大事件不存在');
+        }
+        $this->outputSuccess(compact('event'));
+    }
+
 }
