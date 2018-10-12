@@ -123,12 +123,12 @@ class NextController extends \Explorer\ControllerAbstract {
                 ${$blockName} = array_slice(${$blockName}, 0, 3);
                 array_unshift(${$blockName}, $first);
             }
-            if ($block['category'] != '' && count(${$blockName}) < 16) {
-                $categoryGames = $gameModel->fetchByCategory($block['category'], 1, 16);
+            if ($block['category'] != '' && count(${$blockName}) < 28) {
+                $categoryGames = $gameModel->fetchByCategory($block['category'], 1, 28);
                 foreach($categoryGames as &$game) {
                     $game = $this->adapt($game);
                 }
-                ${$blockName} = array_slice(array_unique(array_merge(${$blockName}, $categoryGames), SORT_REGULAR), 0, 16);
+                ${$blockName} = array_slice(array_unique(array_merge(${$blockName}, $categoryGames), SORT_REGULAR), 0, 28);
             }
             $games[] = [
                 'title' => $block['title'],
@@ -145,7 +145,7 @@ class NextController extends \Explorer\ControllerAbstract {
         $page = (int)$this->getRequest()->getQuery('page', 1);
         $page = max(1, $page);
         // todo
-        $page = 3;
+        $page = 4;
         $pagesize = 100;
         $gameModel = new GameModel();
         $games = $gameModel->fetchAll($page, $pagesize);
