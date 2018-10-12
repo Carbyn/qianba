@@ -123,12 +123,12 @@ class NextController extends \Explorer\ControllerAbstract {
                 ${$blockName} = array_slice(${$blockName}, 0, 3);
                 array_unshift(${$blockName}, $first);
             }
-            if ($block['category'] != '' && count(${$blockName}) < 24) {
-                $categoryGames = $gameModel->fetchByCategory($block['category'], 1, 24);
+            if ($block['category'] != '' && count(${$blockName}) < 20) {
+                $categoryGames = $gameModel->fetchByCategory($block['category'], 1, 20);
                 foreach($categoryGames as &$game) {
                     $game = $this->adapt($game);
                 }
-                ${$blockName} = array_slice(array_unique(array_merge(${$blockName}, $categoryGames), SORT_REGULAR), 0, 24);
+                ${$blockName} = array_slice(array_unique(array_merge(${$blockName}, $categoryGames), SORT_REGULAR), 0, 20);
             }
             $games[] = [
                 'title' => $block['title'],
