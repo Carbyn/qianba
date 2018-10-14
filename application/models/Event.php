@@ -22,6 +22,7 @@ class EventModel extends AbstractModel {
         $where['id'] = $id;
         $event = $this->db->table(self::TABLE)->where($where)->get();
         if ($event) {
+            $event = (array)$event;
             $this->format($event);
         }
         return $event;
