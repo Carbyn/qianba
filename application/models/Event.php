@@ -20,7 +20,11 @@ class EventModel extends AbstractModel {
 
     public function fetch($id) {
         $where['id'] = $id;
-        return $this->db->table(self::TABLE)->where($where)->get();
+        $event = $this->db->table(self::TABLE)->where($where)->get();
+        if ($event) {
+            $this->format($event);
+        }
+        return $event;
     }
 
     public function exists($source, $oid) {
