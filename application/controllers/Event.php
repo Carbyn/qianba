@@ -1,7 +1,7 @@
 <?php
 class EventController extends \Explorer\ControllerAbstract {
 
-    const VERSION_IN_REVIEW = '1.0.9';
+    const VERSION_IN_REVIEW = '1.0.0';
 
     public function indexAction() {
         $ver = $this->getRequest()->getQuery('bhb');
