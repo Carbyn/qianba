@@ -56,12 +56,7 @@ class Constants {
     const TYPE_TRIBUTE_TUDI                 = 1;
     const TYPE_TRIBUTE_TUSUN                = 2;
 
-    const TYPE_TASK_CPA                     = 1;
-    const TYPE_TASK_MINI                    = 2;
-
-    const PRECISION = 100;
-    const PERCENT_TUDI = 0.1;
-    const PERCENT_TUSUN = 0.1;
+    const PRECISION = 100000;
     const PAGESIZE = 20;
     const CODE_DELTA = 83230210;
 

@@ -14,7 +14,7 @@ class IncomeModel extends AbstractModel {
 
         foreach($records as &$row) {
             $row->created_at = date('Y-m-d H:i:s', $row->created_at);
-            $row->income = $row->income > 0 ? sprintf('%.2f', $row->income/Constants::PRECISION) : 0;
+            $row->income = $row->income > 0 ? sprintf('%.5f', $row->income/Constants::PRECISION) : 0;
         }
         return $records;
     }

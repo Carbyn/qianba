@@ -25,7 +25,7 @@ class WithdrawController extends \Explorer\ControllerAbstract {
         }
 
         $withdrawModel = new WithdrawModel();
-        if (!$withdrawModel->create($this->uid, $amount)) {
+        if (!$withdrawModel->create($this->uid, $amount, $receipt)) {
             return $this->outputError(Constants::ERR_WITHDRAW_FAILED, '提现失败，请稍后重试');
         }
 

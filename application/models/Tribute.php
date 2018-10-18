@@ -32,22 +32,14 @@ class TributeModel extends AbstractModel {
 
         foreach($records as &$row) {
             $row->created_at = date('Y-m-d H:i:s', $row->created_at);
-            $row->amount = $row->amount > 0 ? sprintf('%.2f', $row->amount/Constants::PRECISION) : 0;
         }
         return $records;
     }
 
-    public function bind($uid, $type, $ouid, $oname, $amount) {
-        $amount = $amount * Constants::PRECISION;
+    public function bind($uid, $type, $ouid, $oname) {
         $created_at = time();
-        $data = compact('uid', 'type', 'ouid', 'oname', 'amount', 'created_at');
+        $data = compact('uid', 'type', 'ouid', 'oname', 'created_at');
         return $this->db->table(self::TABLE)->insert($data);
-    }
-
-    public function incrAmount($uid, $ouid, $amount) {
-        $amount = $amount * Constants::PRECISION;
-        $sql = 'update '.self::TABLE.' set amount=amount+? where uid=? and ouid=?';
-        return $this->db->query($sql, [$amount, $uid, $ouid]);
     }
 
     public function updateOname($ouid, $oname) {

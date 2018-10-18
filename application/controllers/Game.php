@@ -154,6 +154,12 @@ class GameController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('games', 'is_end'));
     }
 
+    public function playAction() {
+        $id = (int)$this->getRequest()->getQuery('id');
+        $duration = (int)$this->getRequest()->getQuery('duration');
+        // todo
+    }
+
     public function createAction() {
         $gameModel = new GameModel();
         $id = $gameModel->create($this->getRequest()->getPost());
