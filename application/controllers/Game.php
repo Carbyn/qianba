@@ -1,24 +1,26 @@
 <?php
 class GameController extends \Explorer\ControllerAbstract {
 
+    const BLOCK_SIZE = 20;
+
     private $ids = [
         'banner'    => [
             'title' => '顶部横图',
             'category' => '',
             'componentName' => 'banner',
-            'ids' => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            'ids' => [1012, 4, 5, 8, 10, 12, 14, 15]
         ],
         'recommend' => [
             'title' => '热门推荐',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            'ids' => [1012, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15]
         ],
         'matrix'    => [
             'title' => '柚友必备',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [1, 2, 3, 957]
+            'ids' => [998, 1, 2, 3]
         ],
         'latest'    => [
             'title' => '最新榜单',
@@ -36,7 +38,7 @@ class GameController extends \Explorer\ControllerAbstract {
             'title' => '角色游戏',
             'category' => 'juese',
             'componentName' => 'site',
-            'ids' => [5, 6, 7, 8, 9, 11, 13, 14]
+            'ids' => [1012, 5, 6, 7, 8, 9, 11, 13, 14]
         ],
         'qipai'     => [
             'title' => '棋牌游戏',
@@ -117,12 +119,15 @@ class GameController extends \Explorer\ControllerAbstract {
                 }
             }
             if ($blockName == 'banner') {
+                $first = ${$blockName}[0];
+                ${$blockName} = array_slice(${$blockName}, 1);
                 shuffle(${$blockName});
-                ${$blockName} = array_slice(${$blockName}, 0, 4);
+                ${$blockName} = array_slice(${$blockName}, 0, 3);
+                array_unshift(${$blockName}, $first);
             }
-            if ($block['category'] != '' && count(${$blockName}) < 8) {
-                $categoryGames = $gameModel->fetchByCategory($block['category'], 1, 8);
-                ${$blockName} = array_slice(array_unique(array_merge(${$blockName}, $categoryGames), SORT_REGULAR), 0, 8);
+            if ($block['category'] != '' && count(${$blockName}) < self::BLOCK_SIZE) {
+                $categoryGames = $gameModel->fetchByCategory($block['category'], 1, self::BLOCK_SIZE);
+                ${$blockName} = array_slice(array_unique(array_merge(${$blockName}, $categoryGames), SORT_REGULAR), 0, self::BLOCK_SIZE);
             }
             $games[] = [
                 'title' => $block['title'],
