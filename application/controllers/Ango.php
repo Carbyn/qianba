@@ -51,25 +51,7 @@ class AngoController extends \Explorer\ControllerAbstract {
             'contact' => '18618482206',
             "new_income" => "新入账",
         ];
-        if ($this->os == Constants::OS_ANDROID) {
-            $navlist = [
-                [
-                    'title' => '试玩小游戏',
-                    'type' => Constants::TYPE_TASK_MINI,
-                ],
-                [
-                    'title' => '下载APP',
-                    'type' => Constants::TYPE_TASK_CPA,
-                ],
-            ];
-        } else {
-            $navlist = [
-                [
-                    'title' => '试玩小游戏',
-                    'type' => Constants::TYPE_TASK_MINI,
-                ],
-            ];
-        }
+        $navlist = [];
 
         return $this->outputSuccess(compact('aha', 'new', 'navlist', 'texts'));
     }
