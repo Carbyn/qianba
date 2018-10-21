@@ -66,12 +66,16 @@ class TaskController extends \Explorer\ControllerAbstract {
 
         $rewards = [];
 
-        $this->maybeHelp($this->uid, $progress);
+        if ($this->maybeHelp($this->uid, $progress)) {
+            $rewards[] = $allTasks[Constants::TASK_HELP];
+        }
         if ($this->maybeNew($this->uid, $progress)) {
             $rewards[] = $allTasks[Constants::TASK_NEW];
         }
-        if ($this->maybeDaily($this->uid, $progress)) {
-            $rewards[] = $allTasks[Constants::TASK_DAILY];
+        if ($income_id = $this->maybeDaily($this->uid, $progress)) {
+            $task = $allTasks[Constants::TASK_DAILY];
+            $task['income_id'] = $income_id;
+            $rewards[] = $task;
         }
 
 
@@ -118,20 +122,20 @@ class TaskController extends \Explorer\ControllerAbstract {
             $mytaskModel->create($uid, $task['id']);
 
             $helpModel->endHelp($uid);
-            $helpModel->create($income_id, $uid);
             $records = $helpModel->fetchAll($income_id);
-            if (count($records) < Constants::HELP_MAX) {
-                return;
+            if (count($records) >= Constants::HELP_MAX) {
+                return false;
+            }
+            $helpModel->create($income_id, $uid);
+            if (count($records) + 1 == Constants::HELP_MAX) {
+                $income = $incomeModel->fetch($income_id);
+                $walletModel->reward($income->uid, $task['reward']);
+                $incomeModel->create($income->uid, $task['name'], $task['reward']);
             }
 
-            $income = $incomeModel->fetch($income_id);
-
-            $walletModel->reward($income['uid'], $task['reward']);
-            $incomeModel->create($income['uid'], $task['name'], $task['reward']);
-
-            return;
+            return true;
         }
-        return;
+        return false;
     }
 
     private function maybeNew($uid, $progress) {
@@ -174,8 +178,8 @@ class TaskController extends \Explorer\ControllerAbstract {
             $task = $taskModel->fetch(Constants::TASK_DAILY);
             $mytaskModel->create($uid, $task['id']);
             $walletModel->reward($uid, $task['reward']);
-            $incomeModel->create($uid, $task['name'], $task['reward']);
-            return true;
+            $income_id = $incomeModel->create($uid, $task['name'], $task['reward']);
+            return $income_id;
         }
         return false;
     }

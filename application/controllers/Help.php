@@ -19,7 +19,7 @@ class HelpController extends \Explorer\ControllerAbstract {
         $records = $helpModel->fetchAll($income_id);
 
         if (!empty($records)) {
-            $uids = array_column('uid');
+            $uids = array_column($records, 'uid');
             $users = $userModel->fetchAll($uids);
             foreach($records as &$record) {
                 $record['user'] = $users[$record['uid']];

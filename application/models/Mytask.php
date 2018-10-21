@@ -26,7 +26,7 @@ class MytaskModel extends AbstractModel {
     public function fetchProgress($uid) {
         $redis = new Predis\Client();
         $key = $this->getProgressKey($uid);
-        $progress = $redis->get($uid);
+        $progress = $redis->get($key);
         $progress = @json_decode($progress, true);
         if (!$progress) {
             return [
