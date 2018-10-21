@@ -119,13 +119,13 @@ class TaskController extends \Explorer\ControllerAbstract {
             && !$mytaskModel->fetch($uid, Constants::TASK_HELP, date('Ymd'))) {
 
             $task = $taskModel->fetch(Constants::TASK_HELP);
-            $mytaskModel->create($uid, $task['id']);
 
             $helpModel->endHelp($uid);
             $records = $helpModel->fetchAll($income_id);
             if (count($records) >= Constants::HELP_MAX) {
                 return false;
             }
+            $mytaskModel->create($uid, $task['id']);
             $helpModel->create($income_id, $uid);
             if (count($records) + 1 == Constants::HELP_MAX) {
                 $income = $incomeModel->fetch($income_id);
