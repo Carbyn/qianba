@@ -29,6 +29,8 @@ class Constants {
     const ERR_MINI_NOT_EXISTS               = 7001;
     const ERR_MINI_ORDERBY_INVALID          = 7002;
 
+    const ERR_HELP_INCOME_NOT_EXIST         = 8001;
+
 
 
     const STATUS_MYTASK_IN_REVIEW           = 1;

@@ -146,10 +146,13 @@ class GameController extends \Explorer\ControllerAbstract {
         }
 
         $historyModel = new HistoryModel();
-        $gameids = $historyModel->fetch($uid);
+        $history = $historyModel->fetch($this->uid);
 
-        $gameModel = new GameModel();
-        $games = $gameModel->batchFetch($gameids);
+        $games = [];
+        if ($history) {
+            $gameModel = new GameModel();
+            $games = $gameModel->batchFetch(explode(',', $history['gameids']));
+        }
 
         $this->outputSuccess(compact('games'));
     }

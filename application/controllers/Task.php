@@ -93,9 +93,9 @@ class TaskController extends \Explorer\ControllerAbstract {
         $incomeModel = new IncomeModel();
 
         $task = $taskModel->fetch(Constants::TASK_PIN);
-        $mytaskModel->create($uid, $task['id']);
-        $walletModel->reward($uid, $task['reward']);
-        $incomeModel->create($uid, $task['name'], $task['reward']);
+        $mytaskModel->create($this->uid, $task['id']);
+        $walletModel->reward($this->uid, $task['reward']);
+        $incomeModel->create($this->uid, $task['name'], $task['reward']);
 
         $rewards[] = $task;
 
