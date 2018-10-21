@@ -151,7 +151,8 @@ class GameController extends \Explorer\ControllerAbstract {
         $games = [];
         if ($history) {
             $gameModel = new GameModel();
-            $games = $gameModel->batchFetch(explode(',', $history['gameids']));
+            $games = $gameModel->batchFetch(explode(',', $history->gameids));
+            $games = array_values($games);
         }
 
         $this->outputSuccess(compact('games'));

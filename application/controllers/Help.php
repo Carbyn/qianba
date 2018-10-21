@@ -10,6 +10,9 @@ class HelpController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_HELP_INCOME_NOT_EXIST, '助力任务不存在');
         }
 
+        $taskModel = new TaskModel();
+        $task = $taskModel->fetch(Constants::TASK_HELP);
+
         $userModel = new UserModel();
         $user = $userModel->fetch($income->uid);
 
@@ -28,7 +31,7 @@ class HelpController extends \Explorer\ControllerAbstract {
 
         $is_end = count($records) >= Constants::HELP_MAX;
 
-        $this->outputSuccess(compact('user', 'is_mine', 'income', 'records', 'is_end'));
+        $this->outputSuccess(compact('task', 'user', 'is_mine', 'income', 'records', 'is_end'));
     }
 
     public function startAction() {

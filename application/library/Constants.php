@@ -7,6 +7,7 @@ class Constants {
     const ERR_LOGIN_WRONG_TOKEN             = 1002;
 
     const ERR_TASK_DURATION_NOT_ENOUGH      = 2001;
+    const ERR_TASK_PIN_ALREADY_DONE         = 2002;
 
     const ERR_UPLOADER_FAILED               = 3001;
     const ERR_UPLOADER_NO_IMAGE             = 3002;

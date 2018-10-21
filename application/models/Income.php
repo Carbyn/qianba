@@ -5,7 +5,12 @@ class IncomeModel extends AbstractModel {
 
     public function fetch($id) {
         $where['id'] = $id;
-        return $this->db->table(self::TABLE)->where($where)->get();
+        $record = $this->db->table(self::TABLE)->where($where)->get();
+        if ($record) {
+            $record->created_at = date('Y-m-d H:i:s', $record->created_at);
+            $record->income = $record->income > 0 ? sprintf('%.5f', $record->income/Constants::PRECISION) : 0;
+        }
+        return $record;
     }
 
     public function fetchAll($uid, $page) {
