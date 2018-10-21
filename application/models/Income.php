@@ -3,7 +3,12 @@ class IncomeModel extends AbstractModel {
 
     const TABLE = 'income';
 
-    public function fetch($uid, $page) {
+    public function fetch($id) {
+        $where['id'] = $id;
+        return $this->db->table(self::TABLE)->where($where)->get();
+    }
+
+    public function fetchAll($uid, $page) {
         $where['uid'] = $uid;
         $limit = Constants::PAGESIZE;
         $offset = ($page - 1) * $limit;

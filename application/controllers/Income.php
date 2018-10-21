@@ -9,7 +9,7 @@ class IncomeController extends \Explorer\ControllerAbstract {
         $page = (int)$page;
 
         $incomeModel = new IncomeModel();
-        $records = $incomeModel->fetch($this->uid, $page);
+        $records = $incomeModel->fetchAll($this->uid, $page);
         $is_end = count($records) < Constants::PAGESIZE;
         $this->outputSuccess(compact('records', 'is_end'));
     }

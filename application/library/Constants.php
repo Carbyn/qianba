@@ -6,18 +6,7 @@ class Constants {
     const ERR_LOGIN_CODE_INVALID            = 1001;
     const ERR_LOGIN_WRONG_TOKEN             = 1002;
 
-    const ERR_TASK_NOT_EXISTS               = 2001;
-    const ERR_TASK_ALREADY_REVIEWED         = 2002;
-    const ERR_TASK_APPROVED_FAILED          = 2003;
-    const ERR_TASK_INCR_TASK_FAILED         = 2004;
-    const ERR_TASK_REWARD_FAILED            = 2005;
-    const ERR_TASK_INCOME_CREATE_FAILED     = 2006;
-    const ERR_TASK_IN_REVIEW                = 2007;
-    const ERR_TASK_UPDATE_FAILED            = 2008;
-    const ERR_TASK_CREATE_INFO_INVALID      = 2009;
-    const ERR_TASK_TRIBUTE_INCR_FAILED      = 2010;
-    const ERR_TASK_TYPE_INVALID             = 2011;
-    const ERR_TASK_SCREENSHOTS_LOST         = 2012;
+    const ERR_TASK_DURATION_NOT_ENOUGH      = 2001;
 
     const ERR_UPLOADER_FAILED               = 3001;
     const ERR_UPLOADER_NO_IMAGE             = 3002;
@@ -56,6 +45,18 @@ class Constants {
     const TYPE_TRIBUTE_TUDI                 = 1;
     const TYPE_TRIBUTE_TUSUN                = 2;
 
+    const TYPE_TASK_ONCE                    = 1;
+    const TYPE_TASK_DAILY                   = 2;
+    const TYPE_TASK_FOREVER                 = 3;
+
+    const TASK_NEW                          = 101;
+    const TASK_PIN                          = 102;
+    const TASK_DAILY                        = 103;
+    const TASK_HELP                         = 104;
+    const TASK_INVITE                       = 105;
+
+    const HELP_MAX = 3;
+    const GAME_PLAY_VALID_DURATION = 60;
     const PRECISION = 100000;
     const PAGESIZE = 20;
     const CODE_DELTA = 83230210;

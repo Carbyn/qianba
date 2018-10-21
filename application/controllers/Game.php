@@ -140,6 +140,20 @@ class GameController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('games'));
     }
 
+    public function historyAction() {
+        if (!$this->uid) {
+            return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
+        }
+
+        $historyModel = new HistoryModel();
+        $gameids = $historyModel->fetch($uid);
+
+        $gameModel = new GameModel();
+        $games = $gameModel->batchFetch($gameids);
+
+        $this->outputSuccess(compact('games'));
+    }
+
     public function categoryAction() {
         $page = (int)$this->getRequest()->getQuery('page', 1);
         $category = $this->getRequest()->getQuery('category');
@@ -152,12 +166,6 @@ class GameController extends \Explorer\ControllerAbstract {
         $games = array_values($games);
         $is_end = count($games) < $pagesize;
         $this->outputSuccess(compact('games', 'is_end'));
-    }
-
-    public function playAction() {
-        $id = (int)$this->getRequest()->getQuery('id');
-        $duration = (int)$this->getRequest()->getQuery('duration');
-        // todo
     }
 
     public function createAction() {

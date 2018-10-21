@@ -3,6 +3,7 @@ class LoginController extends \Explorer\ControllerAbstract {
 
     public function wxloginAction() {
         $code = $this->getRequest()->getQuery('code');
+        $inviteCode = $this->getRequest()->getQuery('invite_code');
         if (empty($code)) {
             return $this->outputError(Constants::ERR_LOGIN_CODE_INVALID, 'code无效');
         }
@@ -18,7 +19,7 @@ class LoginController extends \Explorer\ControllerAbstract {
             $userModel->genCode($id);
             $user = $userModel->fetch($id);
             $walletModel->create($id);
-            $this->bindMaster($user);
+            $this->bindMaster($user, $inviteCode);
         }
         $token = \Explorer\Utils::generateToken(32);
         $loginModel = new LoginModel();
@@ -43,19 +44,28 @@ class LoginController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('user', 'wallet'));
     }
 
-    private function bindMaster($user) {
-        $clientIP = \Explorer\IP::getClientIP();
-        $tributeModel = new TributeModel();
-        $mUid = $tributeModel->getMaster($clientIP);
-        if (!$mUid) {
-            return false;
+    private function bindMaster($user, $inviteCode) {
+        if ($inviteCode) {
+            $userModel = new UserModel();
+            $master = $userModel->fetchCode($inviteCode);
+            if (!$master) {
+                return false;
+            }
+            $mUid = $master->id;
+        } else {
+            $clientIP = \Explorer\IP::getClientIP();
+            $tributeModel = new TributeModel();
+            $mUid = $tributeModel->getMaster($clientIP);
+            if (!$mUid) {
+                return false;
+            }
+            $userModel = new UserModel();
+            $master = $userModel->fetch($mUid);
+            if (!$master) {
+                return false;
+            }
         }
         if ($mUid == $user->id) {
-            return false;
-        }
-        $userModel = new UserModel();
-        $master = $userModel->fetch($mUid);
-        if (!$master) {
             return false;
         }
         if ($master->register_time > $user->register_time) {
