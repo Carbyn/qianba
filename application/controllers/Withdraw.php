@@ -1,6 +1,11 @@
 <?php
 class WithdrawController extends \Explorer\ControllerAbstract {
 
+    public function amountsAction() {
+        $amounts = [2, 5, 10, 20, 50, 100];
+        $this->outputSuccess(compact('amounts'));
+    }
+
     public function submitAction() {
         if (!$this->uid) {
             return $this->outputError(Constants::ERR_SYS_NOT_LOGGED, '请先登录');
