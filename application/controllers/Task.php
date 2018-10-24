@@ -176,9 +176,13 @@ class TaskController extends \Explorer\ControllerAbstract {
             && !$mytaskModel->fetch($this->uid, Constants::TASK_DAILY, date('Ymd'))) {
 
             $task = $taskModel->fetch(Constants::TASK_DAILY);
+            $wheelModel = new WheelModel();
+            if ($wheelModel->hasReward($this->uid, 'card')) {
+                $reward = $task['reward'] * 2;
+            }
             $mytaskModel->create($uid, $task['id']);
-            $walletModel->reward($uid, $task['reward']);
-            $income_id = $incomeModel->create($uid, $task['name'], $task['reward']);
+            $walletModel->reward($uid, $reward);
+            $income_id = $incomeModel->create($uid, $task['name'], $reward);
             return $income_id;
         }
         return false;

@@ -32,11 +32,8 @@ class Constants {
 
     const ERR_HELP_INCOME_NOT_EXIST         = 8001;
 
+    const ERR_WHEEL_TURNS_RUNOUT            = 9001;
 
-
-    const STATUS_MYTASK_IN_REVIEW           = 1;
-    const STATUS_MYTASK_APPROVED            = 2;
-    const STATUS_MYTASK_UNAPPROVED          = 3;
 
     const STATUS_TASK_OFFLINE               = 0;
     const STATUS_TASK_ONLINE                = 1;
@@ -58,6 +55,15 @@ class Constants {
     const TASK_HELP                         = 104;
     const TASK_INVITE                       = 105;
 
+    const WHEEL_TURNS_REWARD = 3;
+    const WHEEL_TURNS_RATE = 5;
+    const WHEEL_CARD_RATE = 2;
+    const WHEEL_RANDOM_LOW = 20;
+    const WHEEL_RANDOM_HIGH = 40;
+    const WHEEL_RANDOM_RATE = 10000;
+    const WHEEL_NAME = '幸运大转盘';
+    const WHEEL_TURNS_MAX = 10;
+    const WHEEL_BONUS_MAX = 1;
     const HELP_MAX = 3;
     const GAME_PLAY_VALID_DURATION = 60;
     const PRECISION = 100000;
