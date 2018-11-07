@@ -6,13 +6,13 @@ class NextController extends \Explorer\ControllerAbstract {
             'title' => '顶部横图',
             'category' => '',
             'componentName' => 'banner',
-            'ids' => [1155, 1012, 4, 8, 10, 14, 15]
+            'ids' => [1254, 1255, 1155, 1012, 4, 8, 10, 14, 15]
         ],
         'recommend' => [
             'title' => '热门推荐',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [1155, 1012, 4, 7, 8, 10, 14, 15]
+            'ids' => [1254, 1255, 1155, 1012, 4, 7, 8, 10]
         ],
         'matrix'    => [
             'title' => '柚友必备',
@@ -36,7 +36,7 @@ class NextController extends \Explorer\ControllerAbstract {
             'title' => '角色游戏',
             'category' => 'juese',
             'componentName' => 'site',
-            'ids' => [1012, 7, 8, 9, 14]
+            'ids' => [1254, 1255, 1012, 7, 8, 9, 14]
         ],
         'qipai'     => [
             'title' => '棋牌游戏',
