@@ -43,6 +43,7 @@ class Constants {
     const ERR_GC_QUERY_INVALID              = 8001;
     const ERR_GC_AIP_FAILED                 = 8002;
     const ERR_GC_AUDIO_NOT_EXIST            = 8003;
+    const ERR_GC_NOT_FOUND                  = 8004;
 
 
     const STATUS_MYTASK_IN_REVIEW           = 1;

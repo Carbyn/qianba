@@ -7,7 +7,10 @@ class GcController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_GC_QUERY_INVALID, '请求无效');
         }
         $gcModel = new GcModel();
-        $result = $gcModel->fetchAll($query);
+        $result = $gcModel->fetch($query);
+        if (!$result) {
+            return $this->outputError(Constants::ERR_GC_NOT_FOUND, '未找到');
+        }
         $this->outputSuccess(compact('result'));
     }
 
@@ -56,9 +59,11 @@ class GcController extends \Explorer\ControllerAbstract {
             $query = mb_substr($query, 0, -1);
         }
 
-        // todo, only need the entity
         $gcModel = new GcModel();
-        $result = $gcModel->fetchAll($query);
+        $result = $gcModel->fetch($query);
+        if (!$result) {
+            return $this->outputError(Constants::ERR_GC_NOT_FOUND, '未找到');
+        }
         $this->outputSuccess(compact('result'));
     }
 
