@@ -40,6 +40,9 @@ class Constants {
     const ERR_MINI_NOT_EXISTS               = 7001;
     const ERR_MINI_ORDERBY_INVALID          = 7002;
 
+    const ERR_GC_QUERY_INVALID              = 8001;
+    const ERR_GC_AIP_FAILED                 = 8002;
+    const ERR_GC_AUDIO_NOT_EXIST            = 8003;
 
 
     const STATUS_MYTASK_IN_REVIEW           = 1;
