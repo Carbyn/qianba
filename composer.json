@@ -3,6 +3,7 @@
         "izniburak/pdox": "^1.2",
         "curl/curl": "^1.8",
         "predis/predis": "^1.1",
-        "mgargano/simplehtmldom": "^1.5"
+        "mgargano/simplehtmldom": "^1.5",
+        "php-ffmpeg/php-ffmpeg": "^0.14.0"
     }
 }
