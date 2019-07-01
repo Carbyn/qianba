@@ -1,16 +1,33 @@
 <?php
 class GcController extends \Explorer\ControllerAbstract {
 
+    private $classifications = [
+        0 => '',
+        1 => '可回收物',
+        2 => '有害垃圾',
+        3 => '湿垃圾',
+        4 => '干垃圾',
+    ];
+
     public function textAction() {
         $query = $this->getRequest()->getQuery('query');
         if (!$query) {
             return $this->outputError(Constants::ERR_GC_QUERY_INVALID, '请求无效');
         }
         $gcModel = new GcModel();
+        $result = $gcModel->fetchDB($query);
+        if ($result) {
+            $result = $this->classifications[$result->classification];
+            return $this->outputSuccess(compact('result', 'query'));
+        }
         $result = $gcModel->fetch($query);
         if (!$result) {
+            $this->save($query, '');
             return $this->outputError(Constants::ERR_GC_NOT_FOUND, '未找到', compact('query'));
         }
+
+        $this->save($query, $result);
+
         $this->outputSuccess(compact('result', 'query'));
     }
 
@@ -60,11 +77,33 @@ class GcController extends \Explorer\ControllerAbstract {
         }
 
         $gcModel = new GcModel();
+        $result = $gcModel->fetchDB($query);
+        if ($result) {
+            $result = $this->classifications[$result->classification];
+            return $this->outputSuccess(compact('result', 'query'));
+        }
+
         $result = $gcModel->fetch($query);
         if (!$result) {
+            $this->save($query, '');
             return $this->outputError(Constants::ERR_GC_NOT_FOUND, '未找到', compact('query'));
         }
+
+        $this->save($query, $result);
+
         $this->outputSuccess(compact('result', 'query'));
+    }
+
+    private function save($garbage, $classification) {
+        $gcModel = new GcModel();
+        if ($gcModel->exists($garbage)) {
+            return;
+        }
+        $data = [
+            'garbage' => $garbage,
+            'classification' => array_search($classification, $this->classifications),
+        ];
+        $gcModel->create($data);
     }
 
 }
