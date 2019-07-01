@@ -9,9 +9,9 @@ class GcController extends \Explorer\ControllerAbstract {
         $gcModel = new GcModel();
         $result = $gcModel->fetch($query);
         if (!$result) {
-            return $this->outputError(Constants::ERR_GC_NOT_FOUND, '未找到');
+            return $this->outputError(Constants::ERR_GC_NOT_FOUND, '未找到', compact('query'));
         }
-        $this->outputSuccess(compact('result'));
+        $this->outputSuccess(compact('result', 'query'));
     }
 
     public function voiceAction() {
