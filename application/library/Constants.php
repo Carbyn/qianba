@@ -34,6 +34,7 @@ class Constants {
     const ERR_GC_AIP_FAILED                 = 8002;
     const ERR_GC_AUDIO_NOT_EXIST            = 8003;
     const ERR_GC_NOT_FOUND                  = 8004;
+    const ERR_GC_EXPORT_FAILED              = 8005;
 
     const ERR_WHEEL_TURNS_RUNOUT            = 9001;
 

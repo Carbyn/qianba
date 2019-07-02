@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f6c323978c29c8607f39e0f0a65db76f",
-    "content-hash": "d21ee095b6884ecaf8cf5702270a5a8a",
+    "hash": "42a6779c546ecac85e94605f1249ffd6",
+    "content-hash": "e1b5e4b1231a8e770de3e636a877b3ec",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -124,6 +124,54 @@
                 "dot"
             ],
             "time": "2017-08-12 11:44:08"
+        },
+        {
+            "name": "diversen/http-send-file",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/diversen/http-send-file.git",
+                "reference": "db37abd40e105c8a1c09d95577153b25ce93d2ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/diversen/http-send-file/zipball/db37abd40e105c8a1c09d95577153b25ce93d2ca",
+                "reference": "db37abd40e105c8a1c09d95577153b25ce93d2ca",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "diversen\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis Iversen",
+                    "email": "dennis.iversen@gmail.com",
+                    "homepage": "http://www.coscms.org/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Sends a file to a client, with support for (multiple) range requests. It is also able to throttle the download.",
+            "homepage": "http://github.com/diversen/http-send-file",
+            "keywords": [
+                "download",
+                "file",
+                "http",
+                "resume",
+                "throttle"
+            ],
+            "time": "2017-09-13 18:04:43"
         },
         {
             "name": "doctrine/cache",

@@ -12,7 +12,11 @@ class GcModel extends AbstractModel {
     public function update($garbage, $classification) {
         $where['garbage'] = $garbage;
         $update['classification'] = $classification;
-        return $this->db->table(sefl::TABLE)->where($where)->update($update);
+        return $this->db->table(self::TABLE)->where($where)->update($update);
+    }
+
+    public function fetchAllNotFound() {
+        return $this->db->table(self::TABLE)->where('classification', 0)->getAll();
     }
 
     public function fetchDB($garbage) {

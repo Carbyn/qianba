@@ -94,9 +94,54 @@ class GcController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('result', 'query'));
     }
 
+    public function exportAction() {
+        $gcModel = new GcModel();
+        $data = $gcModel->fetchAllNotFound();
+        $exportFile = APPLICATION_PATH.'/uploads/export.txt';
+        exec('rm -f '.$exportFile);
+        foreach($data as $row) {
+            $line = $row->garbage.','.$row->classification."\n";
+            file_put_contents($exportFile, $line, FILE_APPEND);
+        }
+        $sender = new \diversen\sendfile();
+        try {
+            $ret = $sender->send($exportFile);
+        } catch (\Exception $e) {
+            return $this->outputError(Constants::ERR_GC_EXPORT_FAILED, '导出失败');
+        }
+    }
+
+    public function importAction() {
+        $upload_path = APPLICATION_PATH.'/uploads';
+        $name = 'file';
+        $files = $this->getRequest()->getFiles();
+        if (empty($files[$name])) {
+            return $this->outputError(Constants::ERR_GC_IMPORT_FILE_NOT_EXIST, '请上传文件');
+        }
+        $file = $files[$name];
+        if ($file['error'] == 0 && !empty($file['name'])) {
+            move_uploaded_file($file['tmp_name'], $upload_path.'/'.$name);
+        } else {
+            return $this->outputError(Constants::ERR_GC_IMPORT_FILE_NOT_EXIST, '请上传文件');
+        }
+        $lines = file_get_contents($upload_path.'/'.$name);
+        $lines = explode("\n", $lines);
+        $gcModel = new GcModel();
+        foreach($lines as $line) {
+            if (trim($line)) {
+                list($garbage, $classification) = explode(',', trim($line));
+                $gcModel->update($garbage, intval($classification));
+            }
+        }
+        $this->outputSuccess();
+    }
+
     private function save($garbage, $classification) {
         $gcModel = new GcModel();
         if ($gcModel->exists($garbage)) {
+            if ($classification) {
+                $gcModel->update($garbage, array_search($classification, $this->classifications));
+            }
             return;
         }
         $data = [
