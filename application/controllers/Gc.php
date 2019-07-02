@@ -75,6 +75,9 @@ class GcController extends \Explorer\ControllerAbstract {
         if ($aipSpeech->pro) {
             $query = mb_substr($query, 0, -1);
         }
+        if (!$query) {
+            return $this->outputError(Constants::ERR_GC_AIP_FAILED, '服务出问题了，请稍后重试');
+        }
 
         $gcModel = new GcModel();
         $result = $gcModel->fetchDB($query);
@@ -130,7 +133,16 @@ class GcController extends \Explorer\ControllerAbstract {
         foreach($lines as $line) {
             if (trim($line)) {
                 list($garbage, $classification) = explode(',', trim($line));
-                $gcModel->update($garbage, intval($classification));
+                if (!$garbage) {
+                    continue;
+                }
+                $classification = intval($classification);
+                if ($gcModel->exists($garbage)) {
+                    $gcModel->update($garbage, $classification);
+                } else {
+                    $data = compact('garbage', 'classification');
+                    $gcModel->create($data);
+                }
             }
         }
         $this->outputSuccess();
