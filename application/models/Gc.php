@@ -6,6 +6,7 @@ class GcModel extends AbstractModel {
     const URL = 'http://trash.lhsr.cn/sites/feiguan/trashTypes_2/TrashQuery.aspx?kw=%s';
 
     public function create($data) {
+        $data['count'] = 1;
         return $this->db->table(self::TABLE)->insert($data);
     }
 
@@ -15,13 +16,24 @@ class GcModel extends AbstractModel {
         return $this->db->table(self::TABLE)->where($where)->update($update);
     }
 
+    public function incrCount($garbage) {
+        $sql = 'update '.self::TABLE.' set count=count+1 where garbage=?';
+        return $this->db->query($sql, [$garbage]);
+    }
+
     public function fetchAllNotFound() {
         return $this->db->table(self::TABLE)->where('classification', 0)->getAll();
     }
 
     public function fetchDB($garbage) {
-        return $this->db->table(self::TABLE)->where('garbage', $garbage)
-            ->notWhere('classification', 0)->get();
+        $row = $this->db->table(self::TABLE)->where('garbage', $garbage)->get();
+        if ($row) {
+            $this->incrCount($garbage);
+        }
+        if ($row->classification != 0) {
+            return $row;
+        }
+        return null;
     }
 
     public function exists($garbage) {
