@@ -97,6 +97,34 @@ class GcController extends \Explorer\ControllerAbstract {
         $this->outputSuccess(compact('result', 'query'));
     }
 
+    public function quizAction() {
+        $gcModel = new GcModel();
+
+        $garbages = [];
+        $i = 0;
+        $used = 0;
+        foreach ($this->classifications as $k => $v) {
+            if ($k == 0 ) {
+                continue;
+            }
+            if ($i + 1 == count($this->classifications) - 1) {
+                $batchSize = 10 - $used;
+            } else {
+                $batchSize = rand(1, 3);
+            }
+            $garbages = array_merge($garbages, $gcModel->fetchBatch($k, $batchSize));
+            $i++;
+            $used += $batchSize;
+        }
+        shuffle($garbages);
+
+        foreach($garbages as &$g) {
+            $g->classification = $this->classifications[$g->classification];
+        }
+
+        return $this->outputSuccess(compact('garbages'));
+    }
+
     public function exportAction() {
         $gcModel = new GcModel();
         $data = $gcModel->fetchAllNotFound();

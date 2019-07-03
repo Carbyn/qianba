@@ -25,6 +25,11 @@ class GcModel extends AbstractModel {
         return $this->db->table(self::TABLE)->where('classification', 0)->getAll();
     }
 
+    public function fetchBatch($classification, $batchSize) {
+        $sql = 'select garbage,classification from '.self::TABLE.' where classification = '.$classification.' order by rand() limit '.$batchSize;
+        return $this->db->query($sql);
+    }
+
     public function fetchDB($garbage) {
         $row = $this->db->table(self::TABLE)->where('garbage', $garbage)->get();
         if ($row) {
