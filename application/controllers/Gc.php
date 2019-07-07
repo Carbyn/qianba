@@ -43,16 +43,20 @@ class GcController extends \Explorer\ControllerAbstract {
         }
         $file = $files[$name];
         $uuid = uniqid(true);
-        $mp3_name = $uuid.'.mp3';
+        $parts = pathinfo($file['name']);
+        $extension = $parts['extension'];
+        $original_name = $uuid.'.'.$extension;
         $pcm_name = $uuid.'.pcm';
         if ($file['error'] == 0 && !empty($file['name'])) {
-            move_uploaded_file($file['tmp_name'], $upload_path.'/'.$mp3_name);
+            move_uploaded_file($file['tmp_name'], $upload_path.'/'.$original_name);
         } else {
             return $this->outputError(Constants::ERR_GC_AUDIO_NOT_EXIST, '请重试');
         }
 
-        $transcode = "ffmpeg -y -i $upload_path/$mp3_name -acodec pcm_s16le -f s16le -ac 1 -ar 16000 $upload_path/$pcm_name";
-        exec($transcode);
+        if ($extension != 'pcm') {
+            $transcode = "ffmpeg -y -i $upload_path/$original_name -acodec pcm_s16le -f s16le -ac 1 -ar 16000 $upload_path/$pcm_name";
+            exec($transcode);
+        }
 
         $aipSpeech = \Explorer\Aip::getInstance();
         $result = $aipSpeech->asr(file_get_contents($upload_path.'/'.$pcm_name), 'pcm', 16000, ['dev_pid' => 80001]);
