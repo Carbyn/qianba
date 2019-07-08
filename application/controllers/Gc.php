@@ -14,6 +14,7 @@ class GcController extends \Explorer\ControllerAbstract {
         if (!$query) {
             return $this->outputError(Constants::ERR_GC_QUERY_INVALID, '请求无效');
         }
+        $query = $this->identifyEntity($query);
         $gcModel = new GcModel();
         $result = $gcModel->fetchDB($query);
         if ($result) {
@@ -83,6 +84,7 @@ class GcController extends \Explorer\ControllerAbstract {
             return $this->outputError(Constants::ERR_GC_AIP_FAILED, '服务出问题了，请稍后重试');
         }
 
+        $query = $this->identifyEntity($query);
         $gcModel = new GcModel();
         $result = $gcModel->fetchDB($query);
         if ($result) {
@@ -193,6 +195,15 @@ class GcController extends \Explorer\ControllerAbstract {
             'classification' => array_search($classification, $this->classifications),
         ];
         $gcModel->create($data);
+    }
+
+    private function identifyEntity($query) {
+        $pos = mb_strpos($query, '是');
+        if ($pos === false) {
+            return $query;
+        }
+        $query = mb_substr($query, 0, $pos);
+        return $query;
     }
 
 }
