@@ -133,7 +133,11 @@ class GcController extends \Explorer\ControllerAbstract {
 
     public function exportAction() {
         $gcModel = new GcModel();
-        $data = $gcModel->fetchAllNotFound();
+        if ($this->getRequest()->getQuery('all')) {
+            $data = $gcModel->fetchAll();
+        } else {
+            $data = $gcModel->fetchAllNotFound();
+        }
         $exportFile = APPLICATION_PATH.'/uploads/export.txt';
         exec('rm -f '.$exportFile);
         foreach($data as $row) {
