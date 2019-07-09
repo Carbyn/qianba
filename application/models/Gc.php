@@ -25,6 +25,10 @@ class GcModel extends AbstractModel {
         return $this->db->table(self::TABLE)->getAll();
     }
 
+    public function fetchAllFound() {
+        return $this->db->table(self::TABLE)->notWhere('classification', 0)->getAll();
+    }
+
     public function fetchAllNotFound() {
         return $this->db->table(self::TABLE)->where('classification', 0)->getAll();
     }

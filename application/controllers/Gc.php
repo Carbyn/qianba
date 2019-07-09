@@ -131,6 +131,19 @@ class GcController extends \Explorer\ControllerAbstract {
         return $this->outputSuccess(compact('garbages'));
     }
 
+    public function listAction() {
+        $gcModel = new GcModel();
+
+        $data = $gcModel->fetchAllFound();
+
+        $garbages = [];
+        foreach($data as $row) {
+            $garbages[$this->classifications[$row->classification]][] = $row->garbage;
+        }
+
+        return $this->outputSuccess(compact('garbages'));
+    }
+
     public function exportAction() {
         $gcModel = new GcModel();
         if ($this->getRequest()->getQuery('all')) {
