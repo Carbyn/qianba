@@ -18,6 +18,7 @@ class GcController extends \Explorer\ControllerAbstract {
         $gcModel = new GcModel();
         $result = $gcModel->fetchDB($query);
         if ($result) {
+            $result->classification = $this->makeReadable($result->classification);
             $result = $this->classifications[$result->classification];
             return $this->outputSuccess(compact('result', 'query'));
         }
@@ -88,6 +89,7 @@ class GcController extends \Explorer\ControllerAbstract {
         $gcModel = new GcModel();
         $result = $gcModel->fetchDB($query);
         if ($result) {
+            $result->classification = $this->makeReadable($result->classification);
             $result = $this->classifications[$result->classification];
             return $this->outputSuccess(compact('result', 'query'));
         }
@@ -138,6 +140,9 @@ class GcController extends \Explorer\ControllerAbstract {
 
         $garbages = [];
         foreach($data as $row) {
+            if ($row->classification >= 10) {
+                continue;
+            }
             $garbages[$this->classifications[$row->classification]][] = $row->garbage;
         }
 
@@ -184,7 +189,7 @@ class GcController extends \Explorer\ControllerAbstract {
         $gcModel = new GcModel();
         foreach($lines as $line) {
             if (trim($line)) {
-                list($garbage, $classification) = explode(',', trim($line));
+                list($garbage, $classification, $count) = explode(',', trim($line));
                 if (!$garbage) {
                     continue;
                 }
@@ -222,6 +227,10 @@ class GcController extends \Explorer\ControllerAbstract {
         }
         $query = mb_substr($query, 0, $pos);
         return $query;
+    }
+
+    private function makeReadable($classification) {
+        return $classification >= 10 ? $classification / 10 : $classification;
     }
 
 }
