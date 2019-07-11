@@ -22,11 +22,11 @@ class GcModel extends AbstractModel {
     }
 
     public function fetchAll() {
-        return $this->db->table(self::TABLE)->getAll();
+        return $this->db->table(self::TABLE)->orderBy('count', 'DESC')->getAll();
     }
 
     public function fetchAllFound() {
-        return $this->db->table(self::TABLE)->notWhere('classification', 0)->getAll();
+        return $this->db->table(self::TABLE)->notWhere('classification', 0)->orderBy('count', 'DESC')->getAll();
     }
 
     public function fetchAllNotFound() {
