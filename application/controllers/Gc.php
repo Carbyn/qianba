@@ -221,11 +221,22 @@ class GcController extends \Explorer\ControllerAbstract {
     }
 
     private function identifyEntity($query) {
-        $pos = mb_strpos($query, '是');
-        if ($pos === false) {
-            return $query;
+        $pos[] = mb_strpos($query, '是');
+        $pos[] = mb_strpos($query, '属于');
+        $pos[] = mb_strpos($query, '放到');
+        $realPos = 0;
+        foreach($pos as $p) {
+            if ($p !== false) {
+                if ($realPos == 0) {
+                    $realPos = $p;
+                } else {
+                    $realPos = min($p, $realPos);
+                }
+            }
         }
-        $query = mb_substr($query, 0, $pos);
+        if ($realPos > 0) {
+            $query = mb_substr($query, 0, $realPos);
+        }
         return $query;
     }
 
