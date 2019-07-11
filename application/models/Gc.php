@@ -30,7 +30,7 @@ class GcModel extends AbstractModel {
     }
 
     public function fetchAllNotFound() {
-        return $this->db->table(self::TABLE)->where('classification', 0)->getAll();
+        return $this->db->table(self::TABLE)->where('classification', 0)->orderBy('count', 'DESC')->getAll();
     }
 
     public function fetchBatch($classification, $batchSize) {
