@@ -153,7 +153,8 @@ class GcController extends \Explorer\ControllerAbstract {
         }
         $exportFile = APPLICATION_PATH.'/uploads/export.txt';
         exec('rm -f '.$exportFile);
-        foreach($data as $row) {
+        for ($i = 0; $i < count($data); $i++) {
+            $row = $data[$i];
             $line = $row->garbage.','.$row->classification.','.$row->count."\n";
             file_put_contents($exportFile, $line, FILE_APPEND);
         }
