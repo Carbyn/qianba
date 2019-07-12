@@ -5,7 +5,7 @@ class WordsModel extends AbstractModel {
 
     public function fetchAll($page, $pagesize) {
         $offset = max(0, ($page - 1) * $pagesize);
-        $words = $this->db->table(self::TABLE)->orderBy('id', 'DESC')
+        $words = $this->db->table(self::TABLE)->orderBy('md5', 'DESC')
             ->limit($offset, $pagesize)->getAll();
         return $words;
     }
