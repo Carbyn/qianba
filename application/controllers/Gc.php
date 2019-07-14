@@ -149,6 +149,28 @@ class GcController extends \Explorer\ControllerAbstract {
         return $this->outputSuccess(compact('garbages'));
     }
 
+    public function feedAction() {
+        $page = $this->getRequest()->getQuery('page', 1);
+        $pagesize = 10;
+        $articleModel = new ArticleModel();
+        $article = $articleModel->fetchAll($page, $pagesize);
+        $is_end = count($article) < $pagesize;
+        $this->outputSuccess(compact('article', 'is_end'));
+    }
+
+    public function detailAction() {
+        $id = $this->getRequest()->getQuery('id');
+        if (!$id) {
+            return $this->outputError(Constants::ERR_ARTICLE_NOT_FOUND, '文章不存在');
+        }
+        $articleModel = new ArticleModel();
+        $article = $articleModel->fetch($id);
+        if (!$article) {
+            return $this->outputError(Constants::ERR_ARTICLE_NOT_FOUND, '文章不存在');
+        }
+        $this->outputSuccess(compact('article'));
+    }
+
     public function exportAction() {
         $gcModel = new GcModel();
         if ($this->getRequest()->getQuery('all')) {

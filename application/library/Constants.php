@@ -42,6 +42,7 @@ class Constants {
     const ERR_WORDS_INVALID_REQUEST         = 10002;
     const ERR_WORDS_ALREADY_EXIST           = 10003;
 
+    const ERR_ARTICLE_NOT_FOUND             = 11001;
 
     const STATUS_TASK_OFFLINE               = 0;
     const STATUS_TASK_ONLINE                = 1;
