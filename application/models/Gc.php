@@ -42,9 +42,9 @@ class GcModel extends AbstractModel {
         $row = $this->db->table(self::TABLE)->where('garbage', $garbage)->get();
         if ($row) {
             $this->incrCount($garbage);
-        }
-        if ($row->classification != 0) {
-            return $row;
+            if ($row->classification != 0) {
+                return $row;
+            }
         }
         return null;
     }
