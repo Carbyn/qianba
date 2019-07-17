@@ -155,7 +155,8 @@ class GcController extends \Explorer\ControllerAbstract {
         $articleModel = new ArticleModel();
         $article = $articleModel->fetchAll($page, $pagesize);
         $is_end = count($article) < $pagesize;
-        $this->outputSuccess(compact('article', 'is_end'));
+        $num = 9;
+        $this->outputSuccess(compact('article', 'is_end', 'num'));
     }
 
     public function detailAction() {
