@@ -151,11 +151,11 @@ class GcController extends \Explorer\ControllerAbstract {
 
     public function feedAction() {
         $page = $this->getRequest()->getQuery('page', 1);
-        $pagesize = 10;
+        $pagesize = 12;
         $articleModel = new ArticleModel();
         $article = $articleModel->fetchAll($page, $pagesize);
         $is_end = count($article) < $pagesize;
-        $num = 9;
+        $num = 6;
         $this->outputSuccess(compact('article', 'is_end', 'num'));
     }
 
