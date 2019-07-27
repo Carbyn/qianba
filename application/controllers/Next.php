@@ -6,19 +6,19 @@ class NextController extends \Explorer\ControllerAbstract {
             'title' => '顶部横图',
             'category' => '',
             'componentName' => 'banner',
-            'ids' => [1346, 1255, 1155, 1012, 4, 10, 14, 15]
+            'ids' => [1346, 1255, 1155, 1012, 7, 10]
         ],
         'recommend' => [
             'title' => '热门推荐',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [1346, 1255, 1155, 1012, 4, 7, 10, 14]
+            'ids' => [1784, 1785, 1346, 1255, 1155, 1012, 7, 10]
         ],
         'matrix'    => [
             'title' => '柚友必备',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [1784, 998, 1, 2]
+            'ids' => [998, 1, 2, 3]
         ],
         'latest'    => [
             'title' => '最新榜单',
