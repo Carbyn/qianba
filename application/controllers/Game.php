@@ -20,7 +20,7 @@ class GameController extends \Explorer\ControllerAbstract {
             'title' => '柚友必备',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [998, 1, 2, 3]
+            'ids' => [1784, 998, 1, 2]
         ],
         'latest'    => [
             'title' => '最新榜单',
