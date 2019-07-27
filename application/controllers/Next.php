@@ -12,7 +12,7 @@ class NextController extends \Explorer\ControllerAbstract {
             'title' => '热门推荐',
             'category' => '',
             'componentName' => 'site',
-            'ids' => [1784, 1785, 1346, 1255, 1155, 1012, 7, 10]
+            'ids' => [1346, 1255, 1155, 1012, 7, 10, 1723, 1722]
         ],
         'matrix'    => [
             'title' => '柚友必备',
