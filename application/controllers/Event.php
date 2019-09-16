@@ -26,8 +26,20 @@ class EventController extends \Explorer\ControllerAbstract {
                 'name' => '推荐',
             ],
             [
-                'tag' => 'blockchain',
-                'name' => '区块链',
+                'tag' => 'invest',
+                'name' => '融资',
+            ],
+            [
+                'tag' => 'ecom',
+                'name' => '电商',
+            ],
+            // [
+            //     'tag' => 'blockchain',
+            //     'name' => '区块链',
+            // ],
+            [
+                'tag' => 'edu',
+                'name' => '教育',
             ],
             [
                 'tag' => 'car',
@@ -36,18 +48,6 @@ class EventController extends \Explorer\ControllerAbstract {
             [
                 'tag' => 'travel',
                 'name' => '旅游',
-            ],
-            [
-                'tag' => 'ecom',
-                'name' => '电商',
-            ],
-            [
-                'tag' => 'invest',
-                'name' => '融资',
-            ],
-            [
-                'tag' => 'edu',
-                'name' => '教育',
             ],
         ];
         $this->outputSuccess(compact('tags'));

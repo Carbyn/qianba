@@ -7,7 +7,7 @@ class CrawlTraveldaily {
 
     const SOURCE = 'traveldaily';
     const TAG_NAME = 'travel';
-    const URL ='https://www.traveldaily.cn/Home/More';
+    const URL ='https://www.traveldaily.cn/Home/Latest';
     const PAGES_PER_TIME = 10;
 
     public static function run() {
