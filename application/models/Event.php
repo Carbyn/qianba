@@ -52,7 +52,7 @@ class EventModel extends AbstractModel {
     private function format(&$event) {
         if ($event['tag'] == 'invest') {
             $event['display_time'] = date('m-d', $event['published_at']);
-            return;
+            // return;
         }
         $delta = time() - $event['published_at'];
         switch($delta) {
