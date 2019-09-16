@@ -8,14 +8,18 @@ class CrawlItjuzi {
     const SOURCE = 'itjuzi';
     const TAG_NAME = 'invest';
     const URL ='https://itjuzi.com/api/newsletter';
+    const DAYS_PER_TIME = 10;
 
     public static function run() {
-        $time = date('Y-m-d');
-        $data = self::fetchUrl(self::URL, $time);
-        if (!$data) {
-            echo "fetchUrl failed $url\n";
-        } else {
-            self::save($data);
+        $days = self::DAYS_PER_TIME;
+        while ($days-- >= 0) {
+            $time = date('Y-m-d', time() - $days * 86400);
+            $data = self::fetchUrl(self::URL, $time);
+            if (!$data) {
+                echo "fetchUrl failed $url\n";
+            } else {
+                self::save($data);
+            }
         }
         echo "CrawlItjuzi run done\n";
     }
