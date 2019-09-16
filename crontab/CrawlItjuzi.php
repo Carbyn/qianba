@@ -23,6 +23,8 @@ class CrawlItjuzi {
     private static function fetchUrl($url, $time) {
         echo "fetch url $url\n";
         $curl = new \Curl\Curl();
+        $curl->setHeader('Content-Type', 'application/json');
+        $curl->setHeader('Charset', 'UTF-8');
         $resp = '';
         $retry = 3;
         while ($retry-- > 0) {
